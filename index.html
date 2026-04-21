@@ -3,21 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XYZ Labs — Product Catalog</title>
+  <title>XYZ Labs — Live Systems for Modern Businesses</title>
   <meta
     name="description"
-    content="XYZ Labs ships live systems for modern businesses: storefronts, checkout, messaging, and launch surfaces."
+    content="XYZ Labs — premium digital systems, already deployed. Storefronts, checkout, messaging, and onchain execution."
   />
   <link rel="icon" href="/public/favicon.png" />
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  />
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet"
@@ -30,6 +23,7 @@
     <span class="aurora a2"></span>
     <span class="aurora a3"></span>
     <div class="grid-fade"></div>
+    <div class="scanline"></div>
   </div>
 
   <nav class="nav">
@@ -37,19 +31,27 @@
       <a href="#top" class="nav-brand">
         <span class="brand-mark" aria-hidden="true"></span>
         <span class="brand-name">XYZ Labs</span>
+        <span class="brand-sep">//</span>
+        <span class="brand-tag">STUDIO</span>
       </a>
       <div class="nav-links">
         <a href="#catalog">Catalog</a>
-        <a href="#live">Live systems</a>
+        <a href="#web3">Web3 / DeFi</a>
+        <a href="#live">Live Demos</a>
         <a href="#contact">Contact</a>
       </div>
-      <a class="nav-cta" href="#catalog">View catalog</a>
+      <a class="nav-cta" href="#catalog">Enter catalog <span aria-hidden="true">→</span></a>
     </div>
   </nav>
 
   <main id="top">
     <!-- HERO -->
     <section class="hero">
+      <div class="hud-corner tl" aria-hidden="true"></div>
+      <div class="hud-corner tr" aria-hidden="true"></div>
+      <div class="hud-corner bl" aria-hidden="true"></div>
+      <div class="hud-corner br" aria-hidden="true"></div>
+
       <div class="hero-grid">
         <div class="hero-copy">
           <span class="eyebrow" id="heroEyebrow"></span>
@@ -65,12 +67,43 @@
               >Contact</a
             >
           </div>
-          <div class="hero-meta">
+          <div class="hero-status">
             <span class="dot-live"></span>
-            <span id="heroMeta">9 live systems • shipped by XYZ Labs</span>
+            <span class="mono-label" id="heroMeta">Studio // Active</span>
+            <span class="mono-sep">·</span>
+            <span class="mono-label dim">Live systems shipped by XYZ Labs</span>
           </div>
         </div>
-        <div class="hero-visual" id="heroVisual" aria-hidden="true"></div>
+        <div class="hero-visual-wrap">
+          <div class="hero-visual" id="heroVisual" aria-hidden="true"></div>
+          <div class="hero-visual-frame" aria-hidden="true">
+            <span class="frame-mark tl"></span>
+            <span class="frame-mark tr"></span>
+            <span class="frame-mark bl"></span>
+            <span class="frame-mark br"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE / BRAND STRIP -->
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>XYZ.0444 · Studio</span>
+        <span>XYZ.0445 · Gateway</span>
+        <span>XYZ.0446 · Connect</span>
+        <span>XYZ.0447 · PayMe Pro</span>
+        <span>XYZ.0448 · Message Track</span>
+        <span>XYZ.0449 · Showroom</span>
+        <span>XYZ.0450 · Gallery</span>
+        <span>XYZ.0451 · Biz Pages</span>
+        <span>XYZ.0452 · Stickers</span>
+        <span>MKT · MktMaker</span>
+        <span>SWP · Swap</span>
+        <span>VLT · Vaults</span>
+        <span>BRG · Bridge</span>
+        <span>NOD · GotNodes</span>
+        <span>PTS · Points</span>
       </div>
     </section>
 
@@ -83,34 +116,50 @@
           <span class="hl">productized</span> and ready to deploy.
         </h2>
         <p>
-          Each product below is a live system in production. Click through to
-          the deployed demo, expand for capability detail, or request access for
-          a white-glove setup.
+          Every item below is a live system in production. Open the deployed
+          demo, expand for capability detail, or request white-glove setup.
         </p>
       </div>
     </section>
 
     <!-- CATALOG -->
     <section class="catalog" id="catalog">
-      <div class="section-head">
+      <div class="section-head hud">
         <div>
-          <span class="eyebrow">The catalog</span>
-          <h2>Nine live products. One studio.</h2>
+          <span class="eyebrow">The studio catalog</span>
+          <h2>Live products from XYZ Labs.</h2>
         </div>
         <div class="filter-bar" id="filterBar"></div>
       </div>
       <div id="productStack" class="product-stack"></div>
     </section>
 
+    <!-- WEB3 / DEFI -->
+    <section class="web3" id="web3">
+      <div class="web3-inner">
+        <div class="section-head hud">
+          <div>
+            <span class="eyebrow defi-eyebrow" id="defiEyebrow"></span>
+            <h2 id="defiTitle"></h2>
+            <p class="section-sub" id="defiSubtitle"></p>
+          </div>
+          <a class="btn btn-ghost btn-sm defi-docs" id="defiDocs" href="#" target="_blank" rel="noopener noreferrer">
+            Visit mktmaker.xyz <span class="btn-arrow">↗</span>
+          </a>
+        </div>
+        <div class="defi-grid" id="defiGrid"></div>
+      </div>
+    </section>
+
     <!-- LIVE BAND -->
     <section class="live-band" id="live">
       <div class="live-band-inner">
         <div class="live-band-head">
-          <span class="eyebrow">Live systems</span>
-          <h2>All demos are online.</h2>
+          <span class="eyebrow">Deployed</span>
+          <h2>Every surface is online.</h2>
           <p>
-            Every product links to a deployed, working environment. Click any
-            tile to open the live demo in a new tab.
+            Each product links to a working environment. Click any tile to open
+            in a new tab.
           </p>
         </div>
         <div id="liveGrid" class="live-grid"></div>
@@ -123,9 +172,8 @@
         <span class="eyebrow">Work with XYZ Labs</span>
         <h2>Bring a system to market.</h2>
         <p>
-          Pick a product off the shelf or commission something new. We ship
-          fast, and everything above is a reference implementation you can
-          white-label today.
+          Pick a product off the shelf or commission something new. Everything
+          above is a reference implementation you can white-label today.
         </p>
         <div class="hero-ctas">
           <a class="btn btn-primary" id="ctaEmail" href="#">
@@ -160,6 +208,10 @@
       <div class="footer-col">
         <div class="footer-heading">Catalog</div>
         <ul id="footerCatalog"></ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-heading">Web3 / DeFi</div>
+        <ul id="footerDefi"></ul>
       </div>
       <div class="footer-col">
         <div class="footer-heading">Connect</div>

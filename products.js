@@ -7,10 +7,11 @@ window.XYZ_LABS = {
     name: "XYZ Labs",
     tagline: "Systems, tools, and digital infrastructure",
     hero: {
-      eyebrow: "XYZ Labs — Product Catalog 2026",
+      eyebrow: "XYZ Labs — Studio Catalog",
       title: "Live systems for modern businesses.",
       subtitle:
-        "A working catalog of deployed products from XYZ Labs — storefronts, checkout, messaging, and launch surfaces you can try in the browser right now.",
+        "Storefronts, checkout, messaging, and launch surfaces — premium digital systems, already deployed.",
+      status: "Studio // Active",
       featuredImages: [
         "/Studio1.png",
         "/Gateway2.png",
@@ -24,6 +25,70 @@ window.XYZ_LABS = {
       discord: "https://discord.com/invite/NyYT6YNWZJ",
       x: "https://x.com/Mktmakerxyz"
     }
+  },
+
+  defi: {
+    eyebrow: "Web3 / DeFi",
+    title: "Onchain execution surfaces.",
+    subtitle:
+      "Execution surfaces, swap flows, vault tooling, bridge access, and automated market systems.",
+    docs: "https://mktmaker.xyz/",
+    products: [
+      {
+        name: "MktMaker",
+        label: "Launch MktMaker",
+        url: "https://app.mktmaker.xyz",
+        description:
+          "Execution terminal for onchain market making — quote, hedge, and manage books in one surface.",
+        tag: "Execution",
+        motif: "chart"
+      },
+      {
+        name: "Swap",
+        label: "Swap Coins",
+        url: "https://swap.mktmaker.xyz",
+        description:
+          "Token swaps with routed liquidity and price-aware execution.",
+        tag: "Onchain",
+        motif: "swap"
+      },
+      {
+        name: "Vaults",
+        label: "Vaults",
+        url: "https://vaults.mktmaker.xyz",
+        description:
+          "Yield strategies with transparent allocation, caps, and reporting.",
+        tag: "DeFi",
+        motif: "vault"
+      },
+      {
+        name: "Bridge",
+        label: "Bridge",
+        url: "https://bridge.mktmaker.xyz",
+        description:
+          "Cross-chain asset transfer with visible routes and confirmations.",
+        tag: "Onchain",
+        motif: "bridge"
+      },
+      {
+        name: "GotNodes",
+        label: "Nodes",
+        url: "https://gotnodes.xyz",
+        description:
+          "Validator and RPC infrastructure for operators and protocols.",
+        tag: "Infra",
+        motif: "nodes"
+      },
+      {
+        name: "Points",
+        label: "Points",
+        url: "https://points.xyz-labs.xyz",
+        description:
+          "Engagement and loyalty layer with onchain accounting and admin.",
+        tag: "Live",
+        motif: "points"
+      }
+    ]
   },
 
   products: [

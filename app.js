@@ -5,15 +5,14 @@
   const data = window.XYZ_LABS;
   if (!data) return;
 
-  const { brand, products } = data;
+  const { brand, products, defi } = data;
 
   /* ---------- Hero ---------- */
   document.getElementById("heroEyebrow").textContent = brand.hero.eyebrow;
   document.getElementById("heroTitle").textContent = brand.hero.title;
   document.getElementById("heroSubtitle").textContent = brand.hero.subtitle;
-  document.getElementById(
-    "heroMeta"
-  ).textContent = `${products.length} live systems • shipped by ${brand.name}`;
+  document.getElementById("heroMeta").textContent =
+    brand.hero.status || "Studio // Active";
 
   const heroContactBtn = document.getElementById("heroContactBtn");
   heroContactBtn.href = `mailto:${brand.contact.email}`;
@@ -183,6 +182,42 @@
     return setup + monthly;
   }
 
+  /* ---------- Web3 / DeFi ---------- */
+  if (defi) {
+    document.getElementById("defiEyebrow").textContent = defi.eyebrow;
+    document.getElementById("defiTitle").textContent = defi.title;
+    document.getElementById("defiSubtitle").textContent = defi.subtitle;
+    document.getElementById("defiDocs").href = defi.docs;
+
+    const defiGrid = document.getElementById("defiGrid");
+    defi.products.forEach((d, i) => {
+      const a = document.createElement("a");
+      a.className = "defi-card";
+      a.href = d.url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      const idx = String(i + 1).padStart(2, "0");
+      const host = d.url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+      a.innerHTML = `
+        <div class="defi-media">
+          <span class="defi-badge">${escapeHtml(d.tag)}</span>
+          <span class="defi-meta">${idx} / ${escapeHtml(d.name)}</span>
+          ${motifSvg(d.motif)}
+        </div>
+        <div class="defi-body">
+          <div class="defi-label">${escapeHtml(d.label)}</div>
+          <div class="defi-name">${escapeHtml(d.name)}</div>
+          <p class="defi-desc">${escapeHtml(d.description)}</p>
+          <div class="defi-foot">
+            <span class="defi-url">${escapeHtml(host)}</span>
+            <span class="defi-launch">Open <span aria-hidden="true">↗</span></span>
+          </div>
+        </div>
+      `;
+      defiGrid.appendChild(a);
+    });
+  }
+
   /* ---------- Live band ---------- */
   const liveGrid = document.getElementById("liveGrid");
   products.forEach((p) => {
@@ -219,6 +254,17 @@
     )}</a>`;
     footerCatalog.appendChild(li);
   });
+
+  const footerDefi = document.getElementById("footerDefi");
+  if (footerDefi && defi) {
+    defi.products.forEach((d) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="${d.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+        d.label
+      )}</a>`;
+      footerDefi.appendChild(li);
+    });
+  }
 
   const footerSocial = document.getElementById("footerSocial");
   const socials = [
@@ -304,6 +350,152 @@
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !modal.hidden) closeModal();
   });
+
+  /* ---------- DeFi motif SVG placeholders ---------- */
+  /* Temporary product visuals — replace with live screenshots when captured.
+   * Each motif is a HUD-style abstract rendered in the cool DeFi accent palette.
+   */
+  function motifSvg(kind) {
+    const c1 = "#7ff0d9"; // primary teal
+    const c2 = "#4dff9a"; // studio green
+    const c3 = "#5fb8ff"; // cool blue
+    const dim = "#1a2a2a";
+    const grid = `
+      <defs>
+        <linearGradient id="g-${kind}" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="${c1}" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="${c1}" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="f-${kind}" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="2"/>
+        </filter>
+      </defs>
+    `;
+    switch (kind) {
+      case "chart":
+        return `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">${grid}
+          <g stroke="${dim}" stroke-width="0.6">
+            <line x1="0" y1="40" x2="320" y2="40"/>
+            <line x1="0" y1="80" x2="320" y2="80"/>
+            <line x1="0" y1="120" x2="320" y2="120"/>
+            <line x1="0" y1="160" x2="320" y2="160"/>
+          </g>
+          <path d="M 0 140 L 40 120 L 70 130 L 110 90 L 150 100 L 190 70 L 230 80 L 270 50 L 320 60"
+                fill="none" stroke="${c1}" stroke-width="1.4" filter="url(#f-chart)" opacity="0.6"/>
+          <path d="M 0 140 L 40 120 L 70 130 L 110 90 L 150 100 L 190 70 L 230 80 L 270 50 L 320 60"
+                fill="none" stroke="${c1}" stroke-width="1.4"/>
+          <path d="M 0 140 L 40 120 L 70 130 L 110 90 L 150 100 L 190 70 L 230 80 L 270 50 L 320 60 L 320 200 L 0 200 Z"
+                fill="url(#g-chart)"/>
+          <g fill="${c2}">
+            <rect x="60" y="110" width="6" height="22" opacity="0.6"/>
+            <rect x="120" y="80" width="6" height="30" opacity="0.6"/>
+            <rect x="180" y="65" width="6" height="24" opacity="0.6"/>
+            <rect x="250" y="45" width="6" height="20" opacity="0.7"/>
+          </g>
+        </svg>`;
+      case "swap":
+        return `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">${grid}
+          <circle cx="100" cy="100" r="42" fill="none" stroke="${c1}" stroke-width="1.2" opacity="0.6"/>
+          <circle cx="100" cy="100" r="28" fill="none" stroke="${c1}" stroke-width="1.2"/>
+          <circle cx="220" cy="100" r="42" fill="none" stroke="${c2}" stroke-width="1.2" opacity="0.6"/>
+          <circle cx="220" cy="100" r="28" fill="none" stroke="${c2}" stroke-width="1.2"/>
+          <path d="M 140 80 Q 160 40 180 80" fill="none" stroke="${c1}" stroke-width="1.2"/>
+          <polygon points="176,78 184,80 180,86" fill="${c1}"/>
+          <path d="M 180 120 Q 160 160 140 120" fill="none" stroke="${c2}" stroke-width="1.2"/>
+          <polygon points="144,122 136,120 140,114" fill="${c2}"/>
+          <text x="100" y="105" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="${c1}">ETH</text>
+          <text x="220" y="105" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="${c2}">USDC</text>
+        </svg>`;
+      case "vault":
+        return `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">${grid}
+          <g transform="translate(160 100)">
+            <circle r="70" fill="none" stroke="${dim}" stroke-width="1"/>
+            <circle r="55" fill="none" stroke="${c1}" stroke-width="0.8" opacity="0.4"/>
+            <circle r="40" fill="none" stroke="${c1}" stroke-width="1"/>
+            <circle r="28" fill="none" stroke="${c2}" stroke-width="0.8" opacity="0.6"/>
+            <circle r="14" fill="${c1}" opacity="0.15"/>
+            <circle r="4" fill="${c1}"/>
+            <g stroke="${c1}" stroke-width="1" stroke-linecap="round">
+              <line x1="0" y1="-70" x2="0" y2="-58"/>
+              <line x1="70" y1="0" x2="58" y2="0"/>
+              <line x1="0" y1="70" x2="0" y2="58"/>
+              <line x1="-70" y1="0" x2="-58" y2="0"/>
+            </g>
+            <path d="M 0 -40 A 40 40 0 0 1 28 28" fill="none" stroke="${c2}" stroke-width="1.6" stroke-linecap="round"/>
+          </g>
+          <text x="160" y="176" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="${c1}" letter-spacing="2">ALLOC · 68%</text>
+        </svg>`;
+      case "bridge":
+        return `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">${grid}
+          <g stroke="${c1}" stroke-width="1">
+            <circle cx="60" cy="100" r="22" fill="none"/>
+            <circle cx="60" cy="100" r="4" fill="${c1}"/>
+            <circle cx="260" cy="100" r="22" fill="none" stroke="${c2}"/>
+            <circle cx="260" cy="100" r="4" fill="${c2}"/>
+          </g>
+          <path d="M 82 100 Q 160 40 238 100" fill="none" stroke="${c1}" stroke-width="1.4"/>
+          <path d="M 82 100 Q 160 160 238 100" fill="none" stroke="${c2}" stroke-width="1.4" opacity="0.6"/>
+          <g fill="${c1}">
+            <circle cx="120" cy="72" r="2"/>
+            <circle cx="160" cy="60" r="2.5"/>
+            <circle cx="200" cy="72" r="2"/>
+          </g>
+          <text x="60" y="146" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="${c1}" letter-spacing="2">CHAIN A</text>
+          <text x="260" y="146" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="${c2}" letter-spacing="2">CHAIN B</text>
+        </svg>`;
+      case "nodes":
+        return `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">${grid}
+          <g stroke="${c1}" stroke-width="0.8" opacity="0.4">
+            <line x1="80" y1="60" x2="160" y2="100"/>
+            <line x1="80" y1="60" x2="160" y2="40"/>
+            <line x1="240" y1="60" x2="160" y2="100"/>
+            <line x1="240" y1="60" x2="160" y2="40"/>
+            <line x1="160" y1="100" x2="80" y2="140"/>
+            <line x1="160" y1="100" x2="240" y2="140"/>
+            <line x1="80" y1="140" x2="160" y2="160"/>
+            <line x1="240" y1="140" x2="160" y2="160"/>
+          </g>
+          <g fill="${c1}">
+            <circle cx="80" cy="60" r="5"/>
+            <circle cx="240" cy="60" r="5"/>
+            <circle cx="80" cy="140" r="5"/>
+            <circle cx="240" cy="140" r="5"/>
+            <circle cx="160" cy="40" r="4"/>
+            <circle cx="160" cy="160" r="4"/>
+          </g>
+          <circle cx="160" cy="100" r="10" fill="${c2}" opacity="0.2"/>
+          <circle cx="160" cy="100" r="5" fill="${c2}"/>
+        </svg>`;
+      case "points":
+        return `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">${grid}
+          <g stroke="${dim}" stroke-width="0.6">
+            <line x1="40" y1="150" x2="280" y2="150"/>
+          </g>
+          <g fill="${c1}">
+            <circle cx="60" cy="150" r="3"/>
+            <circle cx="100" cy="140" r="3"/>
+            <circle cx="140" cy="125" r="3.5"/>
+            <circle cx="180" cy="105" r="4"/>
+            <circle cx="220" cy="80" r="4.5"/>
+            <circle cx="260" cy="55" r="5"/>
+          </g>
+          <path d="M 60 150 L 100 140 L 140 125 L 180 105 L 220 80 L 260 55"
+                fill="none" stroke="${c1}" stroke-width="1.4"/>
+          <path d="M 60 150 L 100 140 L 140 125 L 180 105 L 220 80 L 260 55 L 260 150 Z"
+                fill="url(#g-points)"/>
+          <g fill="${c2}" opacity="0.9">
+            <circle cx="260" cy="55" r="8" opacity="0.2"/>
+          </g>
+          <text x="40" y="178" font-family="JetBrains Mono" font-size="9" fill="${c1}" letter-spacing="2">LVL · 06</text>
+          <text x="280" y="178" text-anchor="end" font-family="JetBrains Mono" font-size="9" fill="${c2}" letter-spacing="2">+1240 PTS</text>
+        </svg>`;
+      default:
+        return `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">${grid}
+          <rect x="20" y="20" width="280" height="160" fill="none" stroke="${c1}" stroke-width="1" opacity="0.3"/>
+          <text x="160" y="108" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="${c1}" letter-spacing="4">XYZ // ONCHAIN</text>
+        </svg>`;
+    }
+  }
 
   /* ---------- Helpers ---------- */
   function escapeHtml(s) {
