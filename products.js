@@ -40,7 +40,7 @@ window.XYZ_LABS = {
         url: "https://app.mktmaker.xyz",
         description:
           "Execution terminal for onchain market making — quote, hedge, and manage books in one surface.",
-        tag: "Execution",
+        tag: "Web3",
         motif: "chart"
       },
       {
@@ -76,7 +76,7 @@ window.XYZ_LABS = {
         url: "https://gotnodes.xyz",
         description:
           "Validator and RPC infrastructure for operators and protocols.",
-        tag: "Infra",
+        tag: "Live",
         motif: "nodes"
       },
       {

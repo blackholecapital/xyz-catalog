@@ -218,24 +218,41 @@
     });
   }
 
-  /* ---------- Live band ---------- */
+  /* ---------- Live band (catalog + DeFi unified) ---------- */
   const liveGrid = document.getElementById("liveGrid");
-  products.forEach((p) => {
+  const liveItems = [
+    ...products.map((p) => ({
+      name: p.name,
+      label: p.productNumber,
+      url: p.demoUrl,
+      badge: "Live",
+      tone: "studio"
+    })),
+    ...(defi ? defi.products : []).map((d) => ({
+      name: d.name,
+      label: d.label,
+      url: d.url,
+      badge: d.tag,
+      tone: "defi"
+    }))
+  ];
+  liveItems.forEach((item) => {
     const a = document.createElement("a");
     a.className = "live-card";
-    a.href = p.demoUrl;
+    a.href = item.url;
     a.target = "_blank";
     a.rel = "noopener noreferrer";
+    a.dataset.tone = item.tone;
     a.innerHTML = `
       <div class="live-card-head">
-        <span><span class="live-dot"></span>Live</span>
-        <span>${escapeHtml(p.productNumber)}</span>
+        <span class="live-badge"><span class="live-dot"></span>${escapeHtml(
+          item.badge
+        )}</span>
+        <span class="live-label">${escapeHtml(item.label)}</span>
       </div>
-      <div>
-        <div class="live-card-name">${escapeHtml(p.name)}</div>
-      </div>
+      <div class="live-card-name">${escapeHtml(item.name)}</div>
       <div class="live-card-url">${escapeHtml(
-        p.demoUrl.replace(/^https?:\/\//, "")
+        item.url.replace(/^https?:\/\//, "").replace(/\/$/, "")
       )}</div>
     `;
     liveGrid.appendChild(a);
