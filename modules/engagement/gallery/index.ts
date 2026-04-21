@@ -1,1 +1,0 @@
-export { GallerySurface } from './GallerySurface';

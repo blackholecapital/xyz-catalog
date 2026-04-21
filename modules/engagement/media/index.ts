@@ -1,1 +1,0 @@
-export { MediaLightbox } from './MediaLightbox';
