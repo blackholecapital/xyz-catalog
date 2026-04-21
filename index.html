@@ -3,29 +3,190 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XYZ Labs | Showroom</title>
+  <title>XYZ Labs — Product Catalog</title>
+  <meta
+    name="description"
+    content="XYZ Labs ships live systems for modern businesses: storefronts, checkout, messaging, and launch surfaces."
+  />
+  <link rel="icon" href="/public/favicon.png" />
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="wrap">
-    <header class="hero">
-      <div class="brand-row">
-        <div class="brand">
-          <span class="dot"></span>
-          <span id="siteTitle">XYZ Labs</span>
-        </div>
-        <div class="status" id="siteStatus">Live systems directory</div>
-      </div>
-      <h1 id="heroTitle"></h1>
-      <p id="heroSubtitle" class="subtitle"></p>
-      <div id="heroButtons" class="hero-buttons"></div>
-    </header>
-    <main id="sections" class="sections"></main>
-    <footer class="footer">
-      <span id="footerText">XYZ Labs modular systems showroom</span>
-    </footer>
+  <div class="bg-aurora" aria-hidden="true">
+    <span class="aurora a1"></span>
+    <span class="aurora a2"></span>
+    <span class="aurora a3"></span>
+    <div class="grid-fade"></div>
   </div>
-  <script src="./content.js"></script>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#top" class="nav-brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">XYZ Labs</span>
+      </a>
+      <div class="nav-links">
+        <a href="#catalog">Catalog</a>
+        <a href="#live">Live systems</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a class="nav-cta" href="#catalog">View catalog</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow" id="heroEyebrow"></span>
+          <h1 id="heroTitle"></h1>
+          <p class="lede" id="heroSubtitle"></p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="#catalog">
+              View catalog
+              <span class="btn-arrow">→</span>
+            </a>
+            <a class="btn btn-ghost" href="#live">Explore live demos</a>
+            <a class="btn btn-ghost" id="heroContactBtn" href="#contact"
+              >Contact</a
+            >
+          </div>
+          <div class="hero-meta">
+            <span class="dot-live"></span>
+            <span id="heroMeta">9 live systems • shipped by XYZ Labs</span>
+          </div>
+        </div>
+        <div class="hero-visual" id="heroVisual" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- STATEMENT -->
+    <section class="statement">
+      <div class="statement-inner">
+        <div class="statement-tag">What we build</div>
+        <h2>
+          Front ends, checkout, and operating surfaces —
+          <span class="hl">productized</span> and ready to deploy.
+        </h2>
+        <p>
+          Each product below is a live system in production. Click through to
+          the deployed demo, expand for capability detail, or request access for
+          a white-glove setup.
+        </p>
+      </div>
+    </section>
+
+    <!-- CATALOG -->
+    <section class="catalog" id="catalog">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">The catalog</span>
+          <h2>Nine live products. One studio.</h2>
+        </div>
+        <div class="filter-bar" id="filterBar"></div>
+      </div>
+      <div id="productStack" class="product-stack"></div>
+    </section>
+
+    <!-- LIVE BAND -->
+    <section class="live-band" id="live">
+      <div class="live-band-inner">
+        <div class="live-band-head">
+          <span class="eyebrow">Live systems</span>
+          <h2>All demos are online.</h2>
+          <p>
+            Every product links to a deployed, working environment. Click any
+            tile to open the live demo in a new tab.
+          </p>
+        </div>
+        <div id="liveGrid" class="live-grid"></div>
+      </div>
+    </section>
+
+    <!-- CONTACT / CTA -->
+    <section class="cta" id="contact">
+      <div class="cta-inner">
+        <span class="eyebrow">Work with XYZ Labs</span>
+        <h2>Bring a system to market.</h2>
+        <p>
+          Pick a product off the shelf or commission something new. We ship
+          fast, and everything above is a reference implementation you can
+          white-label today.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" id="ctaEmail" href="#">
+            Email the studio
+            <span class="btn-arrow">→</span>
+          </a>
+          <a
+            class="btn btn-ghost"
+            id="ctaDiscord"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Join Discord</a
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-brand-row">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-name">XYZ Labs</span>
+        </div>
+        <p class="footer-line">
+          Systems, tools, and digital infrastructure by XYZ Labs.
+        </p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-heading">Catalog</div>
+        <ul id="footerCatalog"></ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-heading">Connect</div>
+        <ul class="footer-social" id="footerSocial"></ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span id="footerYear"></span>
+      <span>XYZ Labs — made in studio.</span>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div
+      class="modal-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="./products.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>
