@@ -4,9 +4,12 @@
    ========================================================= */
 
 :root {
-  --bg-0: #04070a;
-  --bg-1: #070d0f;
-  --bg-2: #0a1414;
+  --bg-0: #070a10;
+  --bg-1: #0a1015;
+  --bg-2: #0c141a;
+  --amber: #e8b36a;
+  --amber-deep: #b56a2a;
+  --amber-glow: rgba(232, 179, 106, 0.45);
   --panel: rgba(10, 18, 18, 0.64);
   --panel-strong: rgba(12, 22, 22, 0.88);
   --hairline: rgba(255, 255, 255, 0.06);
@@ -75,10 +78,11 @@ p { margin: 0; }
   overflow: hidden;
   pointer-events: none;
   background:
-    radial-gradient(1200px 900px at 10% -10%, rgba(77, 255, 154, 0.07), transparent 60%),
-    radial-gradient(900px 700px at 110% 20%, rgba(41, 110, 255, 0.06), transparent 60%),
-    radial-gradient(1000px 600px at 50% 120%, rgba(127, 240, 217, 0.05), transparent 65%),
-    linear-gradient(180deg, #05090a 0%, #040708 60%, #03060a 100%);
+    radial-gradient(1200px 900px at 12% -8%, rgba(232, 179, 106, 0.10), transparent 60%),
+    radial-gradient(900px 700px at 110% 20%, rgba(77, 255, 154, 0.06), transparent 62%),
+    radial-gradient(700px 520px at 85% 90%, rgba(232, 140, 60, 0.06), transparent 65%),
+    radial-gradient(1000px 600px at 30% 115%, rgba(127, 240, 217, 0.05), transparent 65%),
+    linear-gradient(180deg, #0a0e14 0%, #070b11 55%, #05080d 100%);
 }
 .bg-aurora::before {
   content: "";
@@ -134,7 +138,14 @@ p { margin: 0; }
   width: 520px; height: 520px;
   bottom: -180px; left: 30%;
   background: radial-gradient(circle, #b85bff 0%, transparent 65%);
-  opacity: 0.25;
+  opacity: 0.2;
+}
+.aurora.a-amber {
+  width: 900px; height: 900px;
+  top: -10%;
+  right: -10%;
+  background: radial-gradient(circle, var(--amber) 0%, transparent 60%);
+  opacity: 0.22;
 }
 .grid-fade {
   position: absolute;
@@ -155,15 +166,50 @@ p { margin: 0; }
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(77, 255, 154, 0.04) 48%,
-    rgba(77, 255, 154, 0.08) 50%,
-    rgba(77, 255, 154, 0.04) 52%,
+    rgba(232, 179, 106, 0.035) 48%,
+    rgba(232, 179, 106, 0.06) 50%,
+    rgba(232, 179, 106, 0.035) 52%,
     transparent 100%
   );
   mix-blend-mode: screen;
   animation: scan 14s linear infinite;
   pointer-events: none;
-  opacity: 0.4;
+  opacity: 0.5;
+}
+.schematic {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(circle at 82% 18%, rgba(232, 179, 106, 0.20) 0 1px, transparent 2px),
+    radial-gradient(circle at 82% 18%, transparent 78px, rgba(232, 179, 106, 0.08) 79px, rgba(232, 179, 106, 0.08) 80px, transparent 81px),
+    radial-gradient(circle at 82% 18%, transparent 138px, rgba(232, 179, 106, 0.06) 139px, rgba(232, 179, 106, 0.06) 140px, transparent 141px),
+    radial-gradient(circle at 82% 18%, transparent 208px, rgba(232, 179, 106, 0.045) 209px, rgba(232, 179, 106, 0.045) 210px, transparent 211px),
+    radial-gradient(circle at 82% 18%, transparent 298px, rgba(232, 179, 106, 0.03) 299px, rgba(232, 179, 106, 0.03) 300px, transparent 301px),
+    radial-gradient(circle at 12% 88%, rgba(127, 240, 217, 0.12) 0 1px, transparent 2px),
+    radial-gradient(circle at 12% 88%, transparent 60px, rgba(127, 240, 217, 0.055) 61px, rgba(127, 240, 217, 0.055) 62px, transparent 63px),
+    radial-gradient(circle at 12% 88%, transparent 120px, rgba(127, 240, 217, 0.035) 121px, rgba(127, 240, 217, 0.035) 122px, transparent 123px);
+  mask-image: linear-gradient(180deg, black 0%, black 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, black 0%, black 70%, transparent 100%);
+}
+.light-beam {
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 60vw;
+  height: 90vh;
+  background: linear-gradient(
+    200deg,
+    rgba(232, 179, 106, 0.08) 0%,
+    rgba(232, 179, 106, 0.03) 25%,
+    transparent 55%
+  );
+  filter: blur(30px);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transform: rotate(-12deg);
+  opacity: 0.75;
 }
 @keyframes scan {
   0% { transform: translateY(-100%); }
@@ -238,13 +284,27 @@ p { margin: 0; }
   position: sticky;
   top: 0;
   z-index: 50;
-  backdrop-filter: saturate(150%) blur(14px);
+  backdrop-filter: saturate(160%) blur(16px);
   background: linear-gradient(
     180deg,
-    rgba(5, 8, 10, 0.82),
-    rgba(5, 8, 10, 0.4)
+    rgba(8, 12, 16, 0.82),
+    rgba(8, 12, 16, 0.42)
   );
   border-bottom: 1px solid var(--hairline);
+}
+.nav::after {
+  content: "";
+  position: absolute;
+  left: 10%; right: 10%;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(232, 179, 106, 0.35) 40%,
+    rgba(232, 179, 106, 0.35) 60%,
+    transparent);
+  filter: blur(0.3px);
+  pointer-events: none;
 }
 .nav-inner {
   max-width: 1280px;
@@ -257,10 +317,11 @@ p { margin: 0; }
 }
 .nav-brand {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: 10px;
   font-weight: 800;
   letter-spacing: -0.02em;
+  text-decoration: none;
 }
 .brand-mark {
   width: 22px; height: 22px;
@@ -276,19 +337,44 @@ p { margin: 0; }
     inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 .brand-name { font-size: 15px; letter-spacing: -0.02em; }
+.brand-wordmark {
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  background: linear-gradient(
+    180deg,
+    #ffe8bf 0%,
+    #f2c480 32%,
+    #d99053 62%,
+    #9a5a28 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter:
+    drop-shadow(0 0 3px rgba(255, 210, 150, 0.55))
+    drop-shadow(0 0 14px rgba(232, 160, 80, 0.45))
+    drop-shadow(0 0 34px rgba(210, 120, 50, 0.28));
+  padding-right: 4px;
+}
+.footer-wordmark { font-size: 22px; }
+
 .brand-sep {
   color: var(--text-muted);
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 500;
-  margin-left: 4px;
+  margin-left: 6px;
 }
 .brand-tag {
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.24em;
-  color: var(--accent);
+  color: var(--amber);
   text-transform: uppercase;
+  opacity: 0.85;
 }
 .nav-links { display: flex; gap: 28px; font-size: 13.5px; color: var(--text-dim); }
 .nav-links a {
@@ -335,6 +421,8 @@ p { margin: 0; }
 @media (max-width: 720px) {
   .nav-links { display: none; }
   .nav-inner { padding: 12px 20px; }
+  .brand-wordmark { font-size: 22px; }
+  .footer-wordmark { font-size: 20px; }
 }
 
 /* ---------- Hero ---------- */
