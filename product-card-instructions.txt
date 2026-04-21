@@ -1,0 +1,145 @@
+HOW TO ADD A NEW PRODUCT CARD
+=============================
+
+Read this top-to-bottom. You do not need to know any code.
+Every product you add needs the SAME 6 things. Follow the checklist.
+
+
+THE 6 THINGS YOU NEED BEFORE YOU START
+--------------------------------------
+
+  1. A NAME
+     Example: Studio
+
+  2. A SHORT DESCRIPTION (one sentence)
+     Example: Design and deploy polished business pages fast.
+
+  3. A LONGER DESCRIPTION (one or two sentences — what the buyer gets)
+     Example: Go from idea to live page in minutes with drag-and-drop tools.
+
+  4. 1 TO 5 PICTURES of the product (screenshots)
+     PNG or JPG. Keep each picture under 500 KB if you can.
+
+  5. AT LEAST 3 BULLET POINTS (what the product does)
+     Example:
+        - Drag-and-drop page builder with real-time preview
+        - Polished launch surfaces for any product or service
+        - Branded page templates with custom fonts and colors
+
+  6. A LIVE DEMO LINK (optional — only if the product has a live demo)
+     Example: https://studio.xyz-labs.xyz/
+
+
+STEP BY STEP
+------------
+
+STEP 1.  Put the pictures in the right folder.
+         Drop your 1-5 pictures into this folder:
+             public/
+         Give each picture a simple name, all lowercase, no spaces.
+         Example filenames:
+             studio1.png
+             studio2.png
+             studio3.png
+
+STEP 2.  Open the product list file:
+             modules/engagement/showroom/catalog.ts
+
+STEP 3.  Copy the EXAMPLE BLOCK below. Paste it at the bottom of the
+         list, just before the closing `];`. Do NOT delete any of the
+         other blocks.
+
+STEP 4.  Change the values inside the block to match your new product.
+         Only change what is inside the ' ' quotes or inside [ ].
+         Do NOT change the words on the left (name:, bullets:, etc).
+
+STEP 5.  Save the file.
+
+STEP 6.  Check that the new card shows up in the app. You should see
+         it on the Showroom, on the Build page, and be able to tap
+         into its profile page.
+
+
+EXAMPLE BLOCK — COPY THIS
+-------------------------
+
+    {
+      name: 'Studio',
+      oneLinePromise: 'Design and deploy polished business pages fast.',
+      buyerOutcome: 'Go from idea to live page in minutes with drag-and-drop tools.',
+      actionPath: '/profile/studio',
+      demoUrl: 'https://studio.xyz-labs.xyz/',
+      orderedImages: [
+        '/studio1.png',
+        '/studio2.png',
+        '/studio3.png',
+      ],
+      bullets: [
+        'Drag-and-drop page builder with real-time preview',
+        'Polished launch surfaces for any product or service',
+        'Branded page templates with custom fonts and colors',
+      ],
+    },
+
+
+WHAT EACH LINE MEANS
+--------------------
+
+  name:            The product name.           (Thing #1)
+  oneLinePromise:  The short description.      (Thing #2)
+  buyerOutcome:    The longer description.     (Thing #3)
+  orderedImages:   The list of pictures.       (Thing #4)
+  bullets:         The list of bullet points.  (Thing #5)
+  demoUrl:         The live demo link.         (Thing #6, optional)
+  actionPath:      Always '/profile/' + name in lowercase with dashes
+                   instead of spaces.
+                   'Studio'    ->  '/profile/studio'
+                   'PayMe Pro' ->  '/profile/payme-pro'
+                   'Connect'   ->  '/profile/connect'
+
+
+RULES (DO NOT BREAK THESE)
+--------------------------
+
+  - Keep the quotes ' ' around every piece of text.
+  - Keep the commas at the end of every line.
+  - Keep the [ ] around the pictures list and the bullets list.
+  - Keep the { } around the whole block.
+  - Every picture path starts with a slash /
+        Good:  '/studio1.png'
+        Bad:   'studio1.png'
+        Bad:   'public/studio1.png'
+  - You need AT LEAST 3 bullets. More is fine. 5-6 is a good amount.
+  - You need AT LEAST 1 picture. Max 5. 3 is a good amount.
+  - If the product has no demo, delete the whole demoUrl line.
+
+
+DAY-1 CHECKLIST (TICK EACH BOX)
+-------------------------------
+
+  [ ]  I have a name
+  [ ]  I have a short description (1 sentence)
+  [ ]  I have a longer description (1-2 sentences)
+  [ ]  I have 1-5 pictures saved in the public/ folder
+  [ ]  I have at least 3 bullet points
+  [ ]  I copied the EXAMPLE BLOCK into catalog.ts
+  [ ]  I changed every value inside the ' ' quotes to match my product
+  [ ]  I updated the picture filenames in orderedImages
+  [ ]  I updated actionPath to /profile/ + my-product-name
+  [ ]  I saved the file
+  [ ]  I checked the app and my new card is showing up
+
+
+IF SOMETHING BREAKS
+-------------------
+
+  Did you delete a comma?            Put the comma back.
+  Did you delete a quote ' ?         Put the quote back.
+  Did you delete a bracket { [ ] } ? Put the bracket back.
+  Picture not showing?               Check the filename matches EXACTLY,
+                                     including .png vs .jpg, and that
+                                     it starts with a /.
+  Still broken?                      Compare your block to the EXAMPLE
+                                     BLOCK above, line by line. They
+                                     should look almost identical
+                                     except for the text inside ' '.
