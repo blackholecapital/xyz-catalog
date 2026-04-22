@@ -5,7 +5,62 @@
   const data = window.XYZ_LABS;
   if (!data) return;
 
+  const Commerce = window.XYZ_COMMERCE;
   const { brand, products, defi } = data;
+
+  /* ---------- Commerce adapters ---------- */
+  function toLineItem(source, kind) {
+    if (kind === "defi") {
+      return {
+        sku: source.sku,
+        name: source.name,
+        category: "Web3",
+        image: null,
+        setup: source.pricing ? source.pricing.setup : 0,
+        monthly: source.pricing ? source.pricing.monthly : 0,
+        demoUrl: source.url
+      };
+    }
+    return {
+      sku: source.productNumber,
+      name: source.name,
+      category: "Catalog",
+      image: (source.images && source.images[0]) || null,
+      setup: source.pricing ? source.pricing.setup : 0,
+      monthly: source.pricing ? source.pricing.monthly : 0,
+      demoUrl: source.demoUrl
+    };
+  }
+
+  function flashButton(btn, msg, cls) {
+    const original = btn.dataset.original || btn.innerHTML;
+    btn.dataset.original = original;
+    btn.innerHTML = msg;
+    btn.classList.add(cls || "added");
+    btn.disabled = true;
+    clearTimeout(btn._flashTimer);
+    btn._flashTimer = setTimeout(() => {
+      btn.innerHTML = original;
+      btn.classList.remove(cls || "added");
+      btn.disabled = false;
+    }, 1400);
+  }
+
+  function handleAdd(item, btn) {
+    if (!Commerce) return;
+    if (Commerce.Build.has(item.sku)) {
+      flashButton(btn, "Already in Build", "exists");
+      return;
+    }
+    Commerce.Build.add(item);
+    flashButton(btn, "Added to Build ✓", "added");
+  }
+
+  function handleBuy(item) {
+    if (!Commerce) return;
+    Commerce.Cart.add(item);
+    Commerce.toCartPage();
+  }
 
   /* ---------- Hero ---------- */
   document.getElementById("heroEyebrow").textContent = brand.hero.eyebrow;
@@ -93,11 +148,15 @@
         <ul class="bullet-list">${bullets}</ul>
         <div class="pricing">${price}</div>
         <div class="product-actions">
-          <a class="btn btn-primary btn-sm" href="${p.demoUrl}" target="_blank" rel="noopener noreferrer">
-            Live demo
-            <span class="btn-arrow">↗</span>
+          <button class="btn btn-primary btn-sm" data-buy>
+            Buy It Now
+            <span class="btn-arrow">→</span>
+          </button>
+          <button class="btn btn-ghost btn-sm" data-add-build>Add to Build</button>
+          <a class="btn btn-ghost btn-sm" href="${p.demoUrl}" target="_blank" rel="noopener noreferrer">
+            Live demo <span class="btn-arrow">↗</span>
           </a>
-          <button class="btn btn-ghost btn-sm" data-learn-more>Learn more</button>
+          <button class="btn btn-link btn-sm" data-learn-more>Learn more</button>
         </div>
         <button class="expand-toggle" data-expand>
           <span class="expand-label">More detail</span>
@@ -158,6 +217,23 @@
       .querySelector("[data-learn-more]")
       .addEventListener("click", () => openModal(p));
 
+    // Add to Build / Buy It Now
+    const lineItem = toLineItem(p, "catalog");
+    const addBtn = section.querySelector("[data-add-build]");
+    const buyBtn = section.querySelector("[data-buy]");
+    if (Commerce && Commerce.Build.has(lineItem.sku)) {
+      addBtn.classList.add("exists");
+      addBtn.textContent = "In Build";
+    }
+    addBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      handleAdd(lineItem, addBtn);
+    });
+    buyBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      handleBuy(lineItem);
+    });
+
     // Pointer glow
     section.addEventListener("pointermove", (e) => {
       const r = section.getBoundingClientRect();
@@ -191,30 +267,57 @@
 
     const defiGrid = document.getElementById("defiGrid");
     defi.products.forEach((d, i) => {
-      const a = document.createElement("a");
-      a.className = "defi-card";
-      a.href = d.url;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
+      const article = document.createElement("article");
+      article.className = "defi-card";
       const idx = String(i + 1).padStart(2, "0");
       const host = d.url.replace(/^https?:\/\//, "").replace(/\/$/, "");
-      a.innerHTML = `
-        <div class="defi-media">
+      const pricing = d.pricing
+        ? `<div class="defi-price">
+             <span class="defi-price-setup">${Commerce ? Commerce.formatUSD(d.pricing.setup) : "$" + d.pricing.setup}</span>
+             <span class="defi-price-sep">·</span>
+             <span class="defi-price-monthly">${Commerce ? Commerce.formatUSD(d.pricing.monthly) : "$" + d.pricing.monthly}<span class="suffix">/mo</span></span>
+           </div>`
+        : "";
+      article.innerHTML = `
+        <a class="defi-media" href="${d.url}" target="_blank" rel="noopener noreferrer">
           <span class="defi-badge">${escapeHtml(d.tag)}</span>
           <span class="defi-meta">${idx} / ${escapeHtml(d.name)}</span>
           ${motifSvg(d.motif)}
-        </div>
+        </a>
         <div class="defi-body">
           <div class="defi-label">${escapeHtml(d.label)}</div>
           <div class="defi-name">${escapeHtml(d.name)}</div>
           <p class="defi-desc">${escapeHtml(d.description)}</p>
+          ${pricing}
+          <div class="defi-actions">
+            <button class="btn btn-primary-defi btn-sm" data-buy>Buy It Now <span class="btn-arrow">→</span></button>
+            <button class="btn btn-ghost btn-sm" data-add-build>Add to Build</button>
+            <a class="btn btn-link btn-sm" href="${d.url}" target="_blank" rel="noopener noreferrer">Open ↗</a>
+          </div>
           <div class="defi-foot">
             <span class="defi-url">${escapeHtml(host)}</span>
-            <span class="defi-launch">Open <span aria-hidden="true">↗</span></span>
+            <span class="defi-sku">${escapeHtml(d.sku)}</span>
           </div>
         </div>
       `;
-      defiGrid.appendChild(a);
+
+      const lineItem = toLineItem(d, "defi");
+      const addBtn = article.querySelector("[data-add-build]");
+      const buyBtn = article.querySelector("[data-buy]");
+      if (Commerce && Commerce.Build.has(lineItem.sku)) {
+        addBtn.classList.add("exists");
+        addBtn.textContent = "In Build";
+      }
+      addBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        handleAdd(lineItem, addBtn);
+      });
+      buyBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        handleBuy(lineItem);
+      });
+
+      defiGrid.appendChild(article);
     });
   }
 
@@ -319,6 +422,28 @@
   });
 
   document.getElementById("footerYear").textContent = `© ${new Date().getFullYear()}`;
+
+  /* ---------- Nav Build/Cart counts ---------- */
+  function syncNavCounts() {
+    if (!Commerce) return;
+    const bc = document.getElementById("navBuildCount");
+    const cc = document.getElementById("navCartCount");
+    if (bc) {
+      const n = Commerce.Build.count();
+      bc.textContent = n;
+      bc.parentElement.dataset.empty = n === 0 ? "true" : "false";
+    }
+    if (cc) {
+      const n = Commerce.Cart.count();
+      cc.textContent = n;
+      cc.parentElement.dataset.empty = n === 0 ? "true" : "false";
+    }
+  }
+  syncNavCounts();
+  if (Commerce) {
+    window.addEventListener(Commerce.CHANGE_EVENT, syncNavCounts);
+    window.addEventListener("storage", syncNavCounts);
+  }
 
   /* ---------- Modal ---------- */
   const modal = document.getElementById("modal");
