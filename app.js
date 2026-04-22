@@ -320,6 +320,13 @@
     stack.appendChild(section);
   });
 
+  function money(n) {
+    if (Commerce && typeof Commerce.formatUSD === "function") {
+      return Commerce.formatUSD(n);
+    }
+    return "$" + Number(n || 0).toLocaleString();
+  }
+
   function renderPrice(pricing) {
     const setupLabel = tr("common.labelSetup", "Setup");
     const monthlyLabel = tr("common.labelMonthly", "Monthly");
@@ -327,12 +334,12 @@
     const setup = `
       <div class="price-pill">
         <span class="label">${escapeHtml(setupLabel)}</span>
-        <span class="value">$${pricing.setup.toLocaleString()}</span>
+        <span class="value">${escapeHtml(money(pricing.setup))}</span>
       </div>`;
     const monthly = `
       <div class="price-pill">
         <span class="label">${escapeHtml(monthlyLabel)}</span>
-        <span class="value">$${pricing.monthly}<span class="suffix">${escapeHtml(
+        <span class="value">${escapeHtml(money(pricing.monthly))}<span class="suffix">${escapeHtml(
       monthSuffix
     )}</span></span>
       </div>`;
@@ -372,9 +379,9 @@
       );
       const pricing = d.pricing
         ? `<div class="defi-price">
-             <span class="defi-price-setup">${Commerce ? Commerce.formatUSD(d.pricing.setup) : "$" + d.pricing.setup}</span>
+             <span class="defi-price-setup">${escapeHtml(money(d.pricing.setup))}</span>
              <span class="defi-price-sep">·</span>
-             <span class="defi-price-monthly">${Commerce ? Commerce.formatUSD(d.pricing.monthly) : "$" + d.pricing.monthly}<span class="suffix">${escapeHtml(
+             <span class="defi-price-monthly">${escapeHtml(money(d.pricing.monthly))}<span class="suffix">${escapeHtml(
             monthSuffix
           )}</span></span>
            </div>`

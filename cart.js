@@ -145,8 +145,15 @@
     }
   };
 
+  /* Presentation-only currency symbol swap: Dutch locale shows € instead
+   * of $. The stored amount, Stripe line items, and checkout payload stay
+   * in their original USD values — this is a display override only. */
   function formatUSD(n) {
-    return "$" + Number(n || 0).toLocaleString();
+    const i18n = window.XYZ_I18N;
+    const sym = (i18n && i18n.t && i18n.t("common.currencySymbol", "$")) || "$";
+    const code = (i18n && i18n.t && i18n.t("common.currencyCode", "en-US")) || "en-US";
+    const sep = (i18n && i18n.t && i18n.t("common.currencySeparator", "")) || "";
+    return sym + sep + Number(n || 0).toLocaleString(code);
   }
 
   function localizePath(p) {
