@@ -7,9 +7,14 @@
   const localizePath = (p) =>
     (window.XYZ_I18N && window.XYZ_I18N.localizePath && window.XYZ_I18N.localizePath(p)) ||
     p;
-  const fmtMono = (n) => "$" + Number(n || 0).toLocaleString();
+  /* Prefer the shared locale-aware formatter from cart.js; fall back to a
+   * dollar-formatted string only if XYZ_COMMERCE hasn't loaded. */
+  const fmtMono = (n) =>
+    (window.XYZ_COMMERCE && window.XYZ_COMMERCE.formatUSD
+      ? window.XYZ_COMMERCE.formatUSD(n)
+      : "$" + Number(n || 0).toLocaleString());
   const fmtMonthly = (n) =>
-    n ? fmtMono(n) + t("common.monthSuffix", "/mo") : "$0" + t("common.monthSuffix", "/mo");
+    (n ? fmtMono(n) : fmtMono(0)) + t("common.monthSuffix", "/mo");
   const esc = (s) =>
     String(s)
       .replace(/&/g, "&amp;")

@@ -36,13 +36,32 @@
     } catch (e) {}
   }
 
+  /* Reads ?lang=nl / ?locale=nl from the URL (if present + supported).
+   * This is the shareable-link override: anyone opening
+   *   https://example.com/?lang=nl
+   * gets the Dutch surface regardless of their location or _redirects
+   * state. */
+  function readQueryLocale() {
+    try {
+      const s = (window.location.search || "").toLowerCase();
+      const m = s.match(/[?&](?:lang|locale)=([a-z]{2})\b/);
+      if (m && SUPPORTED.indexOf(m[1]) !== -1) return m[1];
+    } catch (e) {}
+    return null;
+  }
+
   /* Detection precedence:
-   *   1. Stored preference (set by the in-nav language switch). Lets users
-   *      flip locale even before a Cloudflare Pages deploy picks up
-   *      _redirects.
-   *   2. URL pathname — /nl prefix → Dutch.
-   *   3. Default (English). */
+   *   1. ?lang= / ?locale= query param — shareable override. Persists to
+   *      storage so subsequent internal navigation stays in locale.
+   *   2. Stored preference from the in-nav language switch.
+   *   3. URL pathname — /nl prefix → Dutch (once _redirects is deployed).
+   *   4. Default (English). */
   function detectLocale() {
+    const q = readQueryLocale();
+    if (q) {
+      writeStored(q);
+      return q;
+    }
     const stored = readStored();
     if (stored) return stored;
     const p = (window.location.pathname || "").toLowerCase();
