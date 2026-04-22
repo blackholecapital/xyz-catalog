@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XYZ Labs — Cart &amp; Checkout</title>
+  <title data-i18n="meta.cartTitle">XYZ Labs — Cart &amp; Checkout</title>
+  <meta
+    name="description"
+    content="Review your XYZ Labs build and check out securely via PayMe — Stripe and USDC supported."
+    data-i18n-attr="content:meta.cartDescription"
+  />
   <link rel="icon" href="/public/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -153,6 +158,7 @@
             id="walletPlaceholder"
             aria-label="Web3 wallet — coming soon"
             title="Web3 wallet — coming soon"
+            data-i18n-attr="aria-label:common.walletComingSoon,title:common.walletComingSoon"
             disabled
           >
             <span class="wallet-pill-dot" aria-hidden="true"></span>

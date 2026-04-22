@@ -40,6 +40,14 @@
     return cur;
   }
 
+  /* Returns the raw value at `key` (any type) from the active locale, falling
+   * back to English. Returns undefined if neither contains it. */
+  function get(key) {
+    const a = lookup(active, key);
+    if (a !== undefined) return a;
+    return lookup(fallback, key);
+  }
+
   function t(key, fallbackText) {
     const v = lookup(active, key);
     if (typeof v === "string") return v;
@@ -138,6 +146,7 @@
   window.XYZ_I18N = {
     locale,
     t,
+    get,
     localizePath,
     apply: applyAll
   };
