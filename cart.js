@@ -149,11 +149,17 @@
     return "$" + Number(n || 0).toLocaleString();
   }
 
+  function localizePath(p) {
+    if (window.XYZ_I18N && typeof window.XYZ_I18N.localizePath === "function") {
+      return window.XYZ_I18N.localizePath(p);
+    }
+    return p;
+  }
   function toCartPage() {
-    window.location.href = "/cart.html";
+    window.location.href = localizePath("/cart.html");
   }
   function toBuildPage() {
-    window.location.href = "/build.html";
+    window.location.href = localizePath("/build.html");
   }
 
   window.XYZ_COMMERCE = {
@@ -174,11 +180,14 @@
   const THEME_KEY = "xyz_theme";
 
   function applyTheme(theme) {
-    const t = theme === "light" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", t);
+    const mode = theme === "light" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", mode);
+    const i18n = window.XYZ_I18N;
+    const dayLabel = i18n && i18n.t ? i18n.t("nav.themeDay", "Day") : "Day";
+    const nightLabel = i18n && i18n.t ? i18n.t("nav.themeNight", "Night") : "Night";
     const btns = document.querySelectorAll(".nav-pill-theme .theme-label");
     btns.forEach((el) => {
-      el.textContent = t === "light" ? "Day" : "Night";
+      el.textContent = mode === "light" ? dayLabel : nightLabel;
     });
   }
 

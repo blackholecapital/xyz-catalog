@@ -11,7 +11,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="/styles.css" />
   <script>
     (function () {
       try {
@@ -43,10 +43,10 @@
         <span class="brand-tag">STUDIO</span>
       </a>
       <div class="nav-links">
-        <a href="/#catalog">Catalog</a>
-        <a href="/#web3">Web3 / DeFi</a>
-        <a href="/#live">Live Demos</a>
-        <a href="/#contact">Contact</a>
+        <a href="/#catalog" data-i18n="nav.catalog">Catalog</a>
+        <a href="/#web3" data-i18n="nav.web3">Web3 / DeFi</a>
+        <a href="/#live" data-i18n="nav.live">Live Demos</a>
+        <a href="/#contact" data-i18n="nav.contact">Contact</a>
       </div>
       <div class="nav-tray">
         <button
@@ -55,17 +55,18 @@
           id="themeToggle"
           aria-label="Toggle day/night theme"
           title="Toggle day/night theme"
+          data-i18n-attr="aria-label:nav.themeToggleLabel,title:nav.themeToggleLabel"
         >
           <span class="theme-icon theme-icon-dark" aria-hidden="true">☾</span>
           <span class="theme-icon theme-icon-light" aria-hidden="true">☀</span>
           <span class="nav-pill-label theme-label">Night</span>
         </button>
         <a class="nav-pill active" href="/build.html">
-          <span class="nav-pill-label">Build</span>
+          <span class="nav-pill-label" data-i18n="nav.build">Build</span>
           <span class="nav-pill-count" id="navBuildCount">0</span>
         </a>
         <a class="nav-pill nav-pill-cart" href="/cart.html">
-          <span class="nav-pill-label">Cart</span>
+          <span class="nav-pill-label" data-i18n="nav.cart">Cart</span>
           <span class="nav-pill-count" id="navCartCount">0</span>
         </a>
       </div>
@@ -80,16 +81,16 @@
       <div class="hud-corner br" aria-hidden="true"></div>
 
       <header class="commerce-head">
-        <span class="eyebrow">Your Build</span>
-        <h1>Shortlist your stack.</h1>
-        <p class="section-sub">
+        <span class="eyebrow" data-i18n="build.eyebrow">Your Build</span>
+        <h1 data-i18n="build.title">Shortlist your stack.</h1>
+        <p class="section-sub" data-i18n="build.subtitle">
           Save systems you want to deploy. Review pricing, customize, or move
           them to checkout whenever you're ready.
         </p>
         <div class="commerce-head-actions">
-          <a class="btn btn-ghost btn-sm" id="customizeLink" href="#">Customize It</a>
-          <a class="btn btn-ghost btn-sm" id="customBuildLink" href="#">Custom Build</a>
-          <button class="btn btn-link btn-sm" id="clearBuild">Clear list</button>
+          <a class="btn btn-ghost btn-sm" id="customizeLink" href="#" data-i18n="build.customizeIt">Customize It</a>
+          <a class="btn btn-ghost btn-sm" id="customBuildLink" href="#" data-i18n="build.customBuild">Custom Build</a>
+          <button class="btn btn-link btn-sm" id="clearBuild" data-i18n="build.clearList">Clear list</button>
         </div>
       </header>
 
@@ -98,24 +99,24 @@
       <footer class="commerce-foot" id="buildFoot" hidden>
         <div class="commerce-summary">
           <div class="summary-line">
-            <span>Items</span>
+            <span data-i18n="cart.items">Items</span>
             <span id="buildCountLabel">0</span>
           </div>
           <div class="summary-line">
-            <span>Setup subtotal</span>
+            <span data-i18n="cart.setupSubtotal">Setup subtotal</span>
             <span id="buildSetup">$0</span>
           </div>
           <div class="summary-line">
-            <span>Monthly recurring</span>
+            <span data-i18n="cart.monthlyRecurring">Monthly recurring</span>
             <span id="buildMonthly">$0/mo</span>
           </div>
         </div>
         <div class="commerce-ctas">
           <a class="btn btn-primary" id="moveToCart" href="#">
-            Continue to Checkout
+            <span data-i18n="build.continueToCheckout">Continue to Checkout</span>
             <span class="btn-arrow">→</span>
           </a>
-          <a class="btn btn-ghost" id="emailBuild" href="#">Email this build</a>
+          <a class="btn btn-ghost" id="emailBuild" href="#" data-i18n="build.emailThisBuild">Email this build</a>
         </div>
       </footer>
     </section>
@@ -124,17 +125,20 @@
   <footer class="footer footer-slim">
     <div class="footer-base">
       <span>© <span id="footerYear"></span></span>
-      <span>XYZ Labs — Made in studio.</span>
+      <span data-i18n="footer.madeInStudio">XYZ Labs — Made in studio.</span>
       <button type="button" class="top-pill top-pill-footer" data-scroll-top>
-        <span>Top</span>
+        <span data-i18n="common.top">Top</span>
         <span class="top-pill-arrow" aria-hidden="true">↑</span>
       </button>
     </div>
   </footer>
 
-  <script src="./products.js"></script>
-  <script src="./cart.js"></script>
-  <script src="./commerce-pages.js"></script>
+  <script src="/locales/en.js"></script>
+  <script src="/locales/nl.js"></script>
+  <script src="/i18n.js"></script>
+  <script src="/products.js"></script>
+  <script src="/cart.js"></script>
+  <script src="/commerce-pages.js"></script>
   <script>
     window.addEventListener("DOMContentLoaded", () => renderBuildPage());
   </script>

@@ -1,0 +1,11 @@
+# Cloudflare Pages rewrites for Dutch locale.
+# Each /nl path is rewritten (status 200) to the same static HTML used by the
+# default English surface. The locale is detected at runtime from the URL.
+/nl            /index.html   200
+/nl/           /index.html   200
+/nl/cart       /cart.html    200
+/nl/cart/      /cart.html    200
+/nl/checkout   /cart.html    200
+/nl/checkout/  /cart.html    200
+/nl/build      /build.html   200
+/nl/build/     /build.html   200

@@ -15,7 +15,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="/styles.css" />
   <script>
     (function () {
       try {
@@ -46,11 +46,11 @@
         <span class="brand-wordmark">xyz Labs</span>
       </a>
       <div class="nav-links">
-        <a href="#catalog">Catalog</a>
-        <a href="#web3">Web3 / DeFi</a>
-        <a href="#live">Live Demos</a>
-        <a href="#in-production">In Production</a>
-        <a href="#contact">Contact</a>
+        <a href="#catalog" data-i18n="nav.catalog">Catalog</a>
+        <a href="#web3" data-i18n="nav.web3">Web3 / DeFi</a>
+        <a href="#live" data-i18n="nav.live">Live Demos</a>
+        <a href="#in-production" data-i18n="nav.inProduction">In Production</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
       </div>
       <div class="nav-tray">
         <button
@@ -59,17 +59,18 @@
           id="themeToggle"
           aria-label="Toggle day/night theme"
           title="Toggle day/night theme"
+          data-i18n-attr="aria-label:nav.themeToggleLabel,title:nav.themeToggleLabel"
         >
           <span class="theme-icon theme-icon-dark" aria-hidden="true">☾</span>
           <span class="theme-icon theme-icon-light" aria-hidden="true">☀</span>
           <span class="nav-pill-label theme-label">Night</span>
         </button>
         <a class="nav-pill" href="/build.html" id="navBuildLink">
-          <span class="nav-pill-label">Build</span>
+          <span class="nav-pill-label" data-i18n="nav.build">Build</span>
           <span class="nav-pill-count" id="navBuildCount">0</span>
         </a>
         <a class="nav-pill nav-pill-cart" href="/cart.html" id="navCartLink">
-          <span class="nav-pill-label">Cart</span>
+          <span class="nav-pill-label" data-i18n="nav.cart">Cart</span>
           <span class="nav-pill-count" id="navCartCount">0</span>
         </a>
       </div>
@@ -91,11 +92,11 @@
           <p class="lede" id="heroSubtitle"></p>
           <div class="hero-ctas">
             <a class="btn btn-primary" href="#catalog">
-              View catalog
+              <span data-i18n="hero.viewCatalog">View catalog</span>
               <span class="btn-arrow">→</span>
             </a>
-            <a class="btn btn-ghost" href="#live">Explore live demos</a>
-            <a class="btn btn-ghost" id="heroContactBtn" href="#contact"
+            <a class="btn btn-ghost" href="#live" data-i18n="hero.exploreLiveDemos">Explore live demos</a>
+            <a class="btn btn-ghost" id="heroContactBtn" href="#contact" data-i18n="hero.contact"
               >Contact</a
             >
           </div>
@@ -107,7 +108,7 @@
           </div>
           <div class="section-top-row">
             <button type="button" class="top-pill" data-scroll-top>
-              <span>Top</span>
+              <span data-i18n="common.top">Top</span>
               <span class="top-pill-arrow" aria-hidden="true">↑</span>
             </button>
           </div>
@@ -209,7 +210,7 @@
         <div class="defi-grid" id="defiGrid"></div>
         <div class="section-top-row">
           <button type="button" class="top-pill" data-scroll-top>
-            <span>Top</span>
+            <span data-i18n="common.top">Top</span>
             <span class="top-pill-arrow" aria-hidden="true">↑</span>
           </button>
         </div>
@@ -232,7 +233,7 @@
         <div id="liveGrid" class="live-grid"></div>
         <div class="section-top-row">
           <button type="button" class="top-pill" data-scroll-top>
-            <span>Top</span>
+            <span data-i18n="common.top">Top</span>
             <span class="top-pill-arrow" aria-hidden="true">↑</span>
           </button>
         </div>
@@ -300,7 +301,7 @@
         </div>
         <div class="section-top-row">
           <button type="button" class="top-pill" data-scroll-top>
-            <span>Top</span>
+            <span data-i18n="common.top">Top</span>
             <span class="top-pill-arrow" aria-hidden="true">↑</span>
           </button>
         </div>
@@ -332,7 +333,7 @@
         </div>
         <div class="section-top-row">
           <button type="button" class="top-pill" data-scroll-top>
-            <span>Top</span>
+            <span data-i18n="common.top">Top</span>
             <span class="top-pill-arrow" aria-hidden="true">↑</span>
           </button>
         </div>
@@ -347,28 +348,28 @@
         <div class="footer-brand-row">
           <span class="brand-wordmark footer-wordmark">xyz Labs</span>
         </div>
-        <p class="footer-line">
+        <p class="footer-line" data-i18n="footer.tagline">
           Systems, tools, and digital infrastructure by XYZ Labs.
         </p>
       </div>
       <div class="footer-col">
-        <div class="footer-heading">Catalog</div>
+        <div class="footer-heading" data-i18n="footer.catalog">Catalog</div>
         <ul id="footerCatalog"></ul>
       </div>
       <div class="footer-col">
-        <div class="footer-heading">Web3 / DeFi</div>
+        <div class="footer-heading" data-i18n="footer.web3">Web3 / DeFi</div>
         <ul id="footerDefi"></ul>
       </div>
       <div class="footer-col">
-        <div class="footer-heading">Connect</div>
+        <div class="footer-heading" data-i18n="footer.connect">Connect</div>
         <ul class="footer-social" id="footerSocial"></ul>
       </div>
     </div>
     <div class="footer-base">
       <span id="footerYear"></span>
-      <span>XYZ Labs — made in USA.</span>
+      <span data-i18n="footer.madeIn">XYZ Labs — made in USA.</span>
       <button type="button" class="top-pill top-pill-footer" data-scroll-top>
-        <span>Top</span>
+        <span data-i18n="common.top">Top</span>
         <span class="top-pill-arrow" aria-hidden="true">↑</span>
       </button>
     </div>
@@ -388,8 +389,11 @@
     </div>
   </div>
 
-  <script src="./products.js"></script>
-  <script src="./cart.js"></script>
-  <script src="./app.js"></script>
+  <script src="/locales/en.js"></script>
+  <script src="/locales/nl.js"></script>
+  <script src="/i18n.js"></script>
+  <script src="/products.js"></script>
+  <script src="/cart.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>

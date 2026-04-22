@@ -11,6 +11,11 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
+  const t = (key, fb) =>
+    (window.XYZ_I18N && window.XYZ_I18N.t && window.XYZ_I18N.t(key, fb)) || fb;
+  const localizePath = (p) =>
+    (window.XYZ_I18N && window.XYZ_I18N.localizePath && window.XYZ_I18N.localizePath(p)) ||
+    p;
 
   const STUDIO_EMAIL =
     (window.XYZ_LABS && window.XYZ_LABS.brand && window.XYZ_LABS.brand.contact.email) ||
@@ -25,17 +30,26 @@
 
   function renderEmpty(container, kind) {
     const title =
-      kind === "build" ? "Your Build is empty." : "Your cart is empty.";
+      kind === "build"
+        ? t("build.emptyTitle", "Your Build is empty.")
+        : t("cart.emptyTitle", "Your cart is empty.");
     const sub =
       kind === "build"
-        ? "Add systems from the catalog to create your shortlist."
-        : "Add a product or use Buy It Now to populate your cart.";
+        ? t(
+            "build.emptySub",
+            "Add systems from the catalog to create your shortlist."
+          )
+        : t(
+            "cart.emptySub",
+            "Add a product or use Buy It Now to populate your cart."
+          );
+    const browse = t("common.browseCatalog", "Browse catalog");
     container.innerHTML = `
       <div class="commerce-empty">
         <div class="commerce-empty-mark">◇</div>
         <div class="commerce-empty-title">${esc(title)}</div>
         <p class="commerce-empty-sub">${esc(sub)}</p>
-        <a class="btn btn-primary btn-sm" href="/">Browse catalog <span class="btn-arrow">→</span></a>
+        <a class="btn btn-primary btn-sm" href="${esc(localizePath("/"))}">${esc(browse)} <span class="btn-arrow">→</span></a>
       </div>`;
   }
 
@@ -335,7 +349,7 @@
 
     const originalLabel = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = "Creating checkout…";
+    btn.innerHTML = esc(t("common.creatingCheckout", "Creating checkout…"));
 
     try {
       const res = await fetch(CHECKOUT_ENDPOINT, {
@@ -358,7 +372,10 @@
       console.error("[checkout]", err);
       showCheckoutError(
         (err && err.message) ||
-          "Unable to start checkout. Please try again or email studio."
+          t(
+            "common.checkoutError",
+            "Unable to start checkout. Please try again or email studio."
+          )
       );
       btn.disabled = false;
       btn.innerHTML = originalLabel;
