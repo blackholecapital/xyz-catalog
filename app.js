@@ -521,6 +521,104 @@
     if (e.key === "Escape" && !modal.hidden) closeModal();
   });
 
+  /* ---------- Alley AI preview modal ---------- */
+  const alleyProject = {
+    name: "Alley AI",
+    productNumber: "ALLEY · IN PRODUCTION",
+    badge: "Live · build in progress",
+    tagline:
+      "An always-on AI executive assistant — live, deployed during development.",
+    images: [
+      "/public/alley2.png",
+      "/public/alley1.png",
+      "/public/alley3.png",
+      "/public/alley4.png",
+      "/public/alley5.png"
+    ],
+    features: [
+      "Call answering and screening with intelligent routing",
+      "Appointment scheduling and booking across your calendar",
+      "Email drafting, triage, and auto-responses",
+      "Message reminders and proactive follow-ups",
+      "Voice notes and voice command integration",
+      "Calendar integration (Google, Outlook, iCloud)",
+      "Telegram, SMS, and chat-first conversations",
+      "Meeting prep briefs and post-meeting summaries",
+      "Travel, reservations, and logistics coordination",
+      "Auto status updates and daily executive digests"
+    ],
+    liveUrl: "https://alley-ai.xyz-labs.xyz/"
+  };
+
+  function openAlleyModal(startIndex) {
+    const p = alleyProject;
+    const startI = Math.max(
+      0,
+      Math.min(startIndex || 0, p.images.length - 1)
+    );
+    const thumbs = p.images
+      .map(
+        (src, i) =>
+          `<button class="modal-thumb${i === startI ? " active" : ""}" data-i="${i}" aria-label="Preview ${i + 1}">
+             <img src="${src}" alt="${escapeAttr(p.name)} thumbnail ${i + 1}" loading="lazy" />
+           </button>`
+      )
+      .join("");
+    const bullets = p.features
+      .map((f) => `<li>${escapeHtml(f)}</li>`)
+      .join("");
+    modalBody.innerHTML = `
+      <div class="modal-preview">
+        <div class="modal-preview-main">
+          <span class="modal-badge">${escapeHtml(p.badge)}</span>
+          <img id="alleyPreviewImg" src="${p.images[startI]}" alt="${escapeAttr(p.name)}" />
+        </div>
+        <div class="modal-thumbs">${thumbs}</div>
+      </div>
+      <div class="modal-content">
+        <div class="product-id">${escapeHtml(p.productNumber)}</div>
+        <h3>${escapeHtml(p.name)}</h3>
+        <p class="modal-promise">${escapeHtml(p.tagline)}</p>
+        <ul class="bullet-list">${bullets}</ul>
+        <div class="product-actions">
+          <a class="btn btn-primary btn-sm" href="${p.liveUrl}" target="_blank" rel="noopener noreferrer">
+            Open live build <span class="btn-arrow">↗</span>
+          </a>
+          <a class="btn btn-ghost btn-sm" href="mailto:${brand.contact.email}?subject=${encodeURIComponent(
+      p.name + " — " + p.productNumber
+    )}">Contact studio</a>
+        </div>
+      </div>
+    `;
+
+    const mainImg = modalBody.querySelector("#alleyPreviewImg");
+    const thumbBtns = modalBody.querySelectorAll(".modal-thumb");
+    thumbBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const i = Number(btn.dataset.i);
+        mainImg.src = p.images[i];
+        mainImg.alt = `${p.name} ${i + 1}`;
+        thumbBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  const alleyGrid = document.getElementById("alleyGrid");
+  if (alleyGrid) {
+    alleyGrid.addEventListener("click", (e) => {
+      const tile = e.target.closest("[data-alley-open]");
+      if (!tile) return;
+      e.preventDefault();
+      const i = Number(tile.dataset.alleyIndex) || 0;
+      openAlleyModal(i);
+    });
+  }
+
   /* ---------- DeFi motif SVG placeholders ---------- */
   /* Temporary product visuals — replace with live screenshots when captured.
    * Each motif is a HUD-style abstract rendered in the cool DeFi accent palette.
