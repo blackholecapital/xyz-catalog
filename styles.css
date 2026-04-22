@@ -515,6 +515,39 @@ p { margin: 0; }
   .nav-pill { padding: 8px 10px; }
 }
 
+/* ---------- Language switch ---------- */
+.nav-pill-locale {
+  gap: 4px;
+  padding: 4px 6px;
+}
+.nav-pill-locale .locale-opt {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  padding: 4px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.16s ease, background 0.16s ease;
+}
+.nav-pill-locale .locale-opt:hover {
+  color: var(--text);
+}
+.nav-pill-locale .locale-opt[data-active="true"] {
+  color: var(--accent);
+  background: rgba(77, 255, 154, 0.08);
+}
+.nav-pill-locale .locale-sep {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+html[data-theme="light"] .nav-pill-locale .locale-opt[data-active="true"] {
+  background: rgba(77, 255, 154, 0.12);
+}
+
 /* ---------- Hero ---------- */
 
 .hero {
