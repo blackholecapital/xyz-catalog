@@ -16,6 +16,16 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="./styles.css" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("xyz_theme") || "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
 </head>
 <body>
   <div class="bg-aurora" aria-hidden="true">
@@ -44,6 +54,17 @@
         <a href="#contact">Contact</a>
       </div>
       <div class="nav-tray">
+        <button
+          type="button"
+          class="nav-pill nav-pill-theme"
+          id="themeToggle"
+          aria-label="Toggle day/night theme"
+          title="Toggle day/night theme"
+        >
+          <span class="theme-icon theme-icon-dark" aria-hidden="true">☾</span>
+          <span class="theme-icon theme-icon-light" aria-hidden="true">☀</span>
+          <span class="nav-pill-label theme-label">Night</span>
+        </button>
         <a class="nav-pill" href="/build.html" id="navBuildLink">
           <span class="nav-pill-label">Build</span>
           <span class="nav-pill-count" id="navBuildCount">0</span>
@@ -84,6 +105,12 @@
             <span class="mono-label" id="heroMeta">Studio // Active</span>
             <span class="mono-sep">·</span>
             <span class="mono-label dim">Live systems shipped by XYZ Labs</span>
+          </div>
+          <div class="section-top-row">
+            <button type="button" class="top-pill" data-scroll-top>
+              <span>Top</span>
+              <span class="top-pill-arrow" aria-hidden="true">↑</span>
+            </button>
           </div>
         </div>
         <div class="hero-visual-wrap">
@@ -144,6 +171,12 @@
         <div class="filter-bar" id="filterBar"></div>
       </div>
       <div id="productStack" class="product-stack"></div>
+      <div class="section-top-row">
+        <button type="button" class="top-pill" data-scroll-top>
+          <span>Top</span>
+          <span class="top-pill-arrow" aria-hidden="true">↑</span>
+        </button>
+      </div>
     </section>
 
     <!-- WEB3 / DEFI -->
@@ -160,6 +193,12 @@
           </a>
         </div>
         <div class="defi-grid" id="defiGrid"></div>
+        <div class="section-top-row">
+          <button type="button" class="top-pill" data-scroll-top>
+            <span>Top</span>
+            <span class="top-pill-arrow" aria-hidden="true">↑</span>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -177,6 +216,12 @@
           </div>
         </div>
         <div id="liveGrid" class="live-grid"></div>
+        <div class="section-top-row">
+          <button type="button" class="top-pill" data-scroll-top>
+            <span>Top</span>
+            <span class="top-pill-arrow" aria-hidden="true">↑</span>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -202,6 +247,12 @@
             rel="noopener noreferrer"
             >Join Discord</a
           >
+        </div>
+        <div class="section-top-row">
+          <button type="button" class="top-pill" data-scroll-top>
+            <span>Top</span>
+            <span class="top-pill-arrow" aria-hidden="true">↑</span>
+          </button>
         </div>
       </div>
     </section>
@@ -240,6 +291,10 @@
     <div class="footer-base">
       <span id="footerYear"></span>
       <span>XYZ Labs — made in studio.</span>
+      <button type="button" class="top-pill top-pill-footer" data-scroll-top>
+        <span>Top</span>
+        <span class="top-pill-arrow" aria-hidden="true">↑</span>
+      </button>
     </div>
   </footer>
 

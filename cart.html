@@ -12,6 +12,16 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="./styles.css" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("xyz_theme") || "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
 </head>
 <body class="commerce-page">
   <div class="bg-aurora" aria-hidden="true">
@@ -39,6 +49,17 @@
         <a href="/#contact">Contact</a>
       </div>
       <div class="nav-tray">
+        <button
+          type="button"
+          class="nav-pill nav-pill-theme"
+          id="themeToggle"
+          aria-label="Toggle day/night theme"
+          title="Toggle day/night theme"
+        >
+          <span class="theme-icon theme-icon-dark" aria-hidden="true">☾</span>
+          <span class="theme-icon theme-icon-light" aria-hidden="true">☀</span>
+          <span class="nav-pill-label theme-label">Night</span>
+        </button>
         <a class="nav-pill" href="/build.html">
           <span class="nav-pill-label">Build</span>
           <span class="nav-pill-count" id="navBuildCount">0</span>
@@ -124,6 +145,21 @@
           </label>
         </fieldset>
 
+        <div class="wallet-placeholder-row">
+          <button
+            type="button"
+            class="wallet-pill"
+            id="walletPlaceholder"
+            aria-label="Web3 wallet — coming soon"
+            title="Web3 wallet — coming soon"
+            disabled
+          >
+            <span class="wallet-pill-dot" aria-hidden="true"></span>
+            <span class="wallet-pill-label">Web3 / Wallet</span>
+            <span class="wallet-pill-soon">Soon</span>
+          </button>
+        </div>
+
         <div class="commerce-ctas">
           <button class="btn btn-primary" id="payNow">
             Pay now
@@ -145,6 +181,10 @@
     <div class="footer-base">
       <span>© <span id="footerYear"></span></span>
       <span>XYZ Labs — Made in studio.</span>
+      <button type="button" class="top-pill top-pill-footer" data-scroll-top>
+        <span>Top</span>
+        <span class="top-pill-arrow" aria-hidden="true">↑</span>
+      </button>
     </div>
   </footer>
 
