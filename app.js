@@ -72,14 +72,8 @@
   const heroContactBtn = document.getElementById("heroContactBtn");
   heroContactBtn.href = `mailto:${brand.contact.email}`;
 
-  const heroVisual = document.getElementById("heroVisual");
-  const tiles = ["t1", "t2", "t3", "t4"];
-  brand.hero.featuredImages.slice(0, 4).forEach((src, i) => {
-    const tile = document.createElement("div");
-    tile.className = `hero-tile ${tiles[i]}`;
-    tile.innerHTML = `<img src="/public${src}" alt="" loading="lazy" />`;
-    heroVisual.appendChild(tile);
-  });
+  /* Hero visual now renders a looping YouTube short via markup in index.html.
+   * brand.hero.featuredImages is kept in the data for future reuse. */
 
   /* ---------- Filter chips ---------- */
   const filterBar = document.getElementById("filterBar");
