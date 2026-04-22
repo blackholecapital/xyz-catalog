@@ -58,12 +58,19 @@
       <div class="hud-corner bl" aria-hidden="true"></div>
       <div class="hud-corner br" aria-hidden="true"></div>
 
+      <div class="payme-header">
+        <span class="payme-mark" aria-hidden="true"></span>
+        <span class="payme-title">PayMe Checkout</span>
+        <span class="payme-sub">Secure · Stripe · USDC</span>
+      </div>
+
       <header class="commerce-head">
         <span class="eyebrow">Your Cart</span>
         <h1>Review and check out.</h1>
         <p class="section-sub">
-          One-time setup charges plus monthly recurring. Checkout uses the PayMe /
-          Stripe flow.
+          One-time setup plus monthly recurring. Checkout runs through the
+          existing PayMe / Stripe handoff — you will be redirected to complete
+          payment.
         </p>
       </header>
 
@@ -91,6 +98,32 @@
             <span>Monthly renewal billed after first charge.</span>
           </div>
         </div>
+
+        <fieldset class="payme-methods" id="paymentMethods">
+          <legend>Payment method</legend>
+          <label class="payme-method">
+            <input type="radio" name="payment_method" value="card" checked />
+            <span class="payme-method-body">
+              <span class="payme-method-title">Card</span>
+              <span class="payme-method-sub">Visa · Mastercard · Amex — via Stripe</span>
+            </span>
+          </label>
+          <label class="payme-method">
+            <input type="radio" name="payment_method" value="wallet" />
+            <span class="payme-method-body">
+              <span class="payme-method-title">Apple Pay / Google Pay</span>
+              <span class="payme-method-sub">Express wallet checkout</span>
+            </span>
+          </label>
+          <label class="payme-method">
+            <input type="radio" name="payment_method" value="usdc" />
+            <span class="payme-method-body">
+              <span class="payme-method-title">USDC · Base</span>
+              <span class="payme-method-sub">Onchain settlement</span>
+            </span>
+          </label>
+        </fieldset>
+
         <div class="commerce-ctas">
           <button class="btn btn-primary" id="payNow">
             Pay now
@@ -98,41 +131,15 @@
           </button>
           <button class="btn btn-ghost" id="emailInstead">Email studio instead</button>
         </div>
-        <div class="commerce-payments" id="paymentOptions">
-          <div class="pay-opt"><span class="pay-dot"></span>Card · Stripe</div>
-          <div class="pay-opt"><span class="pay-dot"></span>Apple / Google Pay</div>
-          <div class="pay-opt"><span class="pay-dot defi"></span>USDC · Base</div>
-        </div>
+        <div class="checkout-error" id="checkoutError" hidden></div>
       </footer>
+
+      <div class="payme-footer">
+        <span class="payme-mark small" aria-hidden="true"></span>
+        <span>Powered by PayMe</span>
+      </div>
     </section>
   </main>
-
-  <!-- Checkout handoff modal -->
-  <div id="checkoutModal" class="modal" hidden aria-hidden="true">
-    <div class="modal-backdrop" data-close></div>
-    <div class="modal-panel" role="dialog" aria-modal="true">
-      <button class="modal-close" data-close aria-label="Close">×</button>
-      <div class="modal-body">
-        <div class="modal-content">
-          <div class="product-id">Checkout handoff</div>
-          <h3>Confirm your order.</h3>
-          <p>
-            This build uses the PayMe checkout engine (Stripe + USDC). The
-            worker / Stripe keys attach during deploy; confirming here creates
-            a Stripe Checkout Session and redirects you to complete payment.
-          </p>
-          <ul class="bullet-list" id="modalLineItems"></ul>
-          <div class="pricing" id="modalTotals"></div>
-          <div class="product-actions">
-            <a class="btn btn-primary btn-sm" id="modalEmail" href="#">
-              Email studio to finalize <span class="btn-arrow">↗</span>
-            </a>
-            <button class="btn btn-ghost btn-sm" data-close>Back to cart</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <footer class="footer footer-slim">
     <div class="footer-base">
