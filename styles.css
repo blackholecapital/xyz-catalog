@@ -2130,6 +2130,130 @@ p { margin: 0; }
   margin: 0 auto 22px;
 }
 
+/* PayMe checkout header / footer branding (on cart.html) */
+.payme-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 22px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--hairline-metal);
+}
+.payme-mark {
+  width: 22px; height: 22px;
+  border-radius: 7px;
+  background: conic-gradient(from 200deg, var(--accent) 0deg, var(--accent-defi) 180deg, var(--accent) 360deg);
+  box-shadow: 0 0 20px var(--accent-defi-glow),
+    inset 0 0 0 1px rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+.payme-mark.small { width: 14px; height: 14px; border-radius: 4px; }
+.payme-title {
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.payme-sub {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.payme-footer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--hairline);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Payment method controls (PayMe structure) */
+.payme-methods {
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding: 18px 20px 20px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(10, 18, 24, 0.75), rgba(5, 10, 14, 0.7));
+}
+.payme-methods legend {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 6px;
+}
+.payme-method {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--hairline);
+  background: rgba(8, 14, 18, 0.6);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.payme-method:hover {
+  border-color: var(--hairline-strong);
+  background: rgba(12, 20, 26, 0.8);
+}
+.payme-method input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-strong);
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+.payme-method input:checked {
+  border-color: var(--accent);
+  background: radial-gradient(circle, var(--accent) 0 5px, transparent 6px);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+.payme-method:has(input:checked) {
+  border-color: var(--accent-soft);
+  background: rgba(77, 255, 154, 0.05);
+}
+.payme-method-body { display: flex; flex-direction: column; gap: 2px; }
+.payme-method-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.payme-method-sub {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.checkout-error {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 80, 80, 0.08);
+  border: 1px solid rgba(255, 120, 120, 0.28);
+  color: #ffbdbd;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .footer-slim { padding: 20px 32px; border-top: 1px solid var(--hairline); }
 .footer-slim .footer-base {
   margin-top: 0;

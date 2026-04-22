@@ -224,61 +224,145 @@
       }
     );
 
-    document.getElementById("payNow").onclick = () => openCheckoutModal(items, t);
+    document.getElementById("payNow").onclick = () => startCheckout(items);
     document.getElementById("emailInstead").onclick = () => {
       window.location.href = buildMailto(items, "Cart checkout inquiry");
     };
-
-    const modal = document.getElementById("checkoutModal");
-    modal.addEventListener("click", (e) => {
-      if (e.target.closest("[data-close]")) closeCheckoutModal();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !modal.hidden) closeCheckoutModal();
-    });
   }
 
-  function openCheckoutModal(items, totals) {
-    const modal = document.getElementById("checkoutModal");
-    const linesEl = document.getElementById("modalLineItems");
-    const totalsEl = document.getElementById("modalTotals");
-    linesEl.innerHTML = items
-      .map(
-        (i) => `
-        <li>
-          <strong>${esc(i.name)}</strong>
-          <span style="color: var(--text-muted); font-family: var(--mono); font-size: 11px; margin-left: 8px;">${esc(i.sku)}</span>
-          <span style="float: right; color: var(--text-dim);">
-            ${fmtMono(i.setup)} + ${fmtMonthly(i.monthly)} × ${i.qty || 1}
-          </span>
-        </li>`
-      )
-      .join("");
-    totalsEl.innerHTML = `
-      <div class="price-pill"><span class="label">Setup subtotal</span><span class="value">${fmtMono(
-        totals.setup
-      )}</span></div>
-      <div class="price-pill"><span class="label">Monthly</span><span class="value">${fmtMono(
-        totals.monthly
-      )}<span class="suffix">/mo</span></span></div>
-      <div class="price-pill"><span class="label">Due today</span><span class="value">${fmtMono(
-        totals.dueToday
-      )}</span></div>
-    `;
-    document.getElementById("modalEmail").href = buildMailto(
-      items,
-      "Checkout confirmation"
+  /* ---------- Checkout handoff (wired to showroom flow) ----------
+   * POST https://api.xyz-labs.xyz/checkout/create
+   * On success: redirect to data.redirect_url (Stripe-hosted page).
+   * No modal, no dead-end — matches CartSurface + CheckoutFlow contract.
+   */
+  const CHECKOUT_ENDPOINT = "https://api.xyz-labs.xyz/checkout/create";
+
+  function generateCheckoutId() {
+    if (window.crypto && typeof crypto.randomUUID === "function") {
+      return "co_" + crypto.randomUUID();
+    }
+    return (
+      "co_" +
+      Date.now().toString(36) +
+      "_" +
+      Math.random().toString(36).slice(2, 10)
     );
-    modal.hidden = false;
-    modal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
   }
 
-  function closeCheckoutModal() {
-    const modal = document.getElementById("checkoutModal");
-    modal.hidden = true;
-    modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
+  function buildLineItems(items) {
+    const lines = [];
+    items.forEach((item) => {
+      const qty = item.qty || 1;
+      if (item.monthly > 0) {
+        lines.push({
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: `${item.name} — Hosting`,
+              description: `${item.sku} · ${item.category}`,
+              metadata: { sku: item.sku, kind: "monthly" }
+            },
+            unit_amount: Math.round(item.monthly * 100),
+            recurring: { interval: "month", interval_count: 1 }
+          },
+          quantity: qty
+        });
+      }
+      if (item.setup > 0) {
+        lines.push({
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: `${item.name} — Setup`,
+              description: `${item.sku} · ${item.category}`,
+              metadata: { sku: item.sku, kind: "setup" }
+            },
+            unit_amount: Math.round(item.setup * 100)
+          },
+          quantity: qty,
+          one_time: true
+        });
+      }
+    });
+    return lines;
+  }
+
+  function selectedPaymentMethod() {
+    const el = document.querySelector(
+      'input[name="payment_method"]:checked'
+    );
+    return el ? el.value : "card";
+  }
+
+  function showCheckoutError(msg) {
+    const el = document.getElementById("checkoutError");
+    if (!el) return;
+    el.textContent = msg;
+    el.hidden = false;
+  }
+
+  function clearCheckoutError() {
+    const el = document.getElementById("checkoutError");
+    if (!el) return;
+    el.hidden = true;
+    el.textContent = "";
+  }
+
+  async function startCheckout(items) {
+    const btn = document.getElementById("payNow");
+    const C = window.XYZ_COMMERCE;
+    clearCheckoutError();
+    if (!items.length) return;
+
+    const checkout_id = generateCheckoutId();
+    const totals = C.Cart.totals();
+    const payload = {
+      checkout_id,
+      mode: "subscription",
+      currency: "usd",
+      success_url: `${window.location.origin}/checkout/confirm`,
+      cancel_url: `${window.location.origin}/cart`,
+      metadata: {
+        source: "xyz-catalog",
+        payment_method: selectedPaymentMethod(),
+        item_count: String(totals.unitCount),
+        setup_total_cents: String(Math.round(totals.setup * 100)),
+        monthly_total_cents: String(Math.round(totals.monthly * 100)),
+        skus: items.map((i) => i.sku).join(",")
+      },
+      line_items: buildLineItems(items)
+    };
+
+    const originalLabel = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = "Creating checkout…";
+
+    try {
+      const res = await fetch(CHECKOUT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        throw new Error(`Checkout failed (${res.status})`);
+      }
+
+      const data = await res.json();
+      if (data && data.redirect_url) {
+        window.location.href = data.redirect_url;
+        return;
+      }
+      throw new Error("Checkout response missing redirect_url");
+    } catch (err) {
+      console.error("[checkout]", err);
+      showCheckoutError(
+        (err && err.message) ||
+          "Unable to start checkout. Please try again or email studio."
+      );
+      btn.disabled = false;
+      btn.innerHTML = originalLabel;
+    }
   }
 
   function buildMailto(items, subjectPrefix) {
