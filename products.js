@@ -43,7 +43,7 @@ window.XYZ_LABS = {
         tag: "Web3",
         motif: "chart",
         sku: "xyz.dfi01",
-        pricing: { setup: 1999, monthly: 99 }
+        pricing: { setup: 19999, monthly: 699 }
       },
       {
         name: "Swap",
@@ -54,7 +54,7 @@ window.XYZ_LABS = {
         tag: "Onchain",
         motif: "swap",
         sku: "xyz.dfi02",
-        pricing: { setup: 499, monthly: 49 }
+        pricing: { setup: 1499, monthly: 149 }
       },
       {
         name: "Vaults",
@@ -65,7 +65,7 @@ window.XYZ_LABS = {
         tag: "DeFi",
         motif: "vault",
         sku: "xyz.dfi03",
-        pricing: { setup: 999, monthly: 99 }
+        pricing: { setup: 3999, monthly: 399 }
       },
       {
         name: "Bridge",
@@ -76,7 +76,7 @@ window.XYZ_LABS = {
         tag: "Onchain",
         motif: "bridge",
         sku: "xyz.dfi04",
-        pricing: { setup: 499, monthly: 29 }
+        pricing: { setup: 999, monthly: 129 }
       },
       {
         name: "GotNodes",
@@ -87,7 +87,7 @@ window.XYZ_LABS = {
         tag: "Live",
         motif: "nodes",
         sku: "xyz.dfi05",
-        pricing: { setup: 799, monthly: 49 }
+        pricing: { setup: 999, monthly: 149 }
       },
       {
         name: "Points",
@@ -98,7 +98,7 @@ window.XYZ_LABS = {
         tag: "Live",
         motif: "points",
         sku: "xyz.dfi06",
-        pricing: { setup: 299, monthly: 19 }
+        pricing: { setup: 12999, monthly: 199 }
       }
     ]
   },
@@ -127,7 +127,7 @@ window.XYZ_LABS = {
         "One-click deploy to your own domain",
         "Mobile-responsive output by default"
       ],
-      pricing: { setup: 199, monthly: 20 }
+      pricing: { setup: 999, monthly: 99 }
     },
     {
       name: "Gateway",
@@ -198,7 +198,7 @@ window.XYZ_LABS = {
         "Streamlined checkout with saved payment methods",
         "Light CRM with customer profiles and purchase history"
       ],
-      pricing: { setup: 199, monthly: 10 }
+      pricing: { setup: 249, monthly: 20 }
     },
     {
       name: "Message Track",
@@ -238,7 +238,7 @@ window.XYZ_LABS = {
         "Admin page plus multiple payment options",
         "Micro-sales system optimized for premium offers"
       ],
-      pricing: { setup: 199, monthly: 20 }
+      pricing: { setup: 299, monthly: 20 }
     },
     {
       name: "Gallery",
@@ -256,7 +256,7 @@ window.XYZ_LABS = {
         "Admin page plus multiple payment options",
         "Micro-sales system for premium product drops"
       ],
-      pricing: { setup: 199, monthly: 20 }
+      pricing: { setup: 299, monthly: 20 }
     },
     {
       name: "Biz Pages",

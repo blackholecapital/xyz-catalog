@@ -442,7 +442,7 @@
     })),
     ...(defi ? defi.products : []).map((d) => ({
       name: d.name,
-      label: d.label,
+      label: d.sku,
       url: d.url,
       badge: d.tag,
       tone: "defi"
