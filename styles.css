@@ -1395,6 +1395,25 @@ p { margin: 0; }
   text-transform: uppercase;
   white-space: nowrap;
 }
+.in-production-status-link {
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
+}
+.in-production-status-link:hover {
+  border-color: var(--accent);
+  background: rgba(77, 255, 154, 0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -14px rgba(77, 255, 154, 0.6);
+}
+.in-production-status-arrow {
+  font-family: var(--mono);
+  color: var(--accent);
+  transition: transform 0.2s ease;
+}
+.in-production-status-link:hover .in-production-status-arrow {
+  transform: translate(2px, -2px);
+}
 .in-production-grid {
   position: relative;
   display: grid;
