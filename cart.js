@@ -165,3 +165,54 @@
     toBuildPage
   };
 })();
+
+/* =========================================================
+   Shared UI wiring: day/night theme toggle + back-to-top.
+   Presentation-only. No backend / commerce interaction.
+   ========================================================= */
+(function () {
+  const THEME_KEY = "xyz_theme";
+
+  function applyTheme(theme) {
+    const t = theme === "light" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", t);
+    const btns = document.querySelectorAll(".nav-pill-theme .theme-label");
+    btns.forEach((el) => {
+      el.textContent = t === "light" ? "Day" : "Night";
+    });
+  }
+
+  function currentTheme() {
+    try {
+      return localStorage.getItem(THEME_KEY) || "dark";
+    } catch {
+      return "dark";
+    }
+  }
+
+  function init() {
+    applyTheme(currentTheme());
+
+    document.querySelectorAll("#themeToggle, .nav-pill-theme").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const next = currentTheme() === "light" ? "dark" : "light";
+        try { localStorage.setItem(THEME_KEY, next); } catch {}
+        applyTheme(next);
+      });
+    });
+
+    document.querySelectorAll("[data-scroll-top]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
