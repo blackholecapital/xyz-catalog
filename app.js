@@ -211,6 +211,17 @@
       .querySelector("[data-learn-more]")
       .addEventListener("click", () => openModal(p));
 
+    // Click large image tile → modal (ignore carousel dots)
+    const mediaEl = section.querySelector(".product-media");
+    mediaEl.classList.add("product-media-clickable");
+    mediaEl.addEventListener("click", (e) => {
+      if (e.target.closest(".media-dots")) return;
+      const activeIdx = Array.from(
+        mediaEl.querySelectorAll(".media-dots button")
+      ).findIndex((b) => b.classList.contains("active"));
+      openModal(p, activeIdx >= 0 ? activeIdx : 0);
+    });
+
     // Add to Build / Buy It Now
     const lineItem = toLineItem(p, "catalog");
     const addBtn = section.querySelector("[data-add-build]");
@@ -443,22 +454,32 @@
   const modal = document.getElementById("modal");
   const modalBody = document.getElementById("modalBody");
 
-  function openModal(p) {
-    const gallery = p.images
+  function openModal(p, startIndex) {
+    const startI = Math.max(0, Math.min(startIndex || 0, p.images.length - 1));
+    const thumbs = p.images
       .map(
         (src, i) =>
-          `<img src="${src}" alt="${escapeAttr(p.name)} ${i + 1}" loading="lazy" />`
+          `<button class="modal-thumb${i === startI ? " active" : ""}" data-i="${i}" aria-label="Image ${i + 1}">
+             <img src="${src}" alt="${escapeAttr(p.name)} thumbnail ${i + 1}" loading="lazy" />
+           </button>`
       )
       .join("");
     const bullets = p.bullets.map((b) => `<li>${escapeHtml(b)}</li>`).join("");
     modalBody.innerHTML = `
-      <div class="modal-gallery">${gallery}</div>
+      <div class="modal-preview">
+        <div class="modal-preview-main">
+          <span class="modal-badge">${escapeHtml(p.badge)}</span>
+          <img id="modalPreviewImg" src="${p.images[startI]}" alt="${escapeAttr(p.name)}" />
+        </div>
+        ${p.images.length > 1 ? `<div class="modal-thumbs">${thumbs}</div>` : ""}
+      </div>
       <div class="modal-content">
         <div class="product-id">${escapeHtml(p.productNumber)}</div>
         <h3>${escapeHtml(p.name)}</h3>
-        <p>${escapeHtml(p.buyerOutcome)}</p>
+        <p class="modal-promise">${escapeHtml(p.oneLinePromise)}</p>
         <ul class="bullet-list">${bullets}</ul>
         <div class="pricing">${renderPrice(p.pricing)}</div>
+        <p class="modal-outcome">${escapeHtml(p.buyerOutcome)}</p>
         <div class="product-actions">
           <a class="btn btn-primary btn-sm" href="${p.demoUrl}" target="_blank" rel="noopener noreferrer">
             Open live demo <span class="btn-arrow">↗</span>
@@ -469,6 +490,19 @@
         </div>
       </div>
     `;
+
+    const mainImg = modalBody.querySelector("#modalPreviewImg");
+    const thumbBtns = modalBody.querySelectorAll(".modal-thumb");
+    thumbBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const i = Number(btn.dataset.i);
+        mainImg.src = p.images[i];
+        mainImg.alt = `${p.name} ${i + 1}`;
+        thumbBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
     modal.hidden = false;
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
