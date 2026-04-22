@@ -2,8 +2,14 @@
  * Depend on: window.XYZ_COMMERCE (from cart.js) and window.XYZ_LABS (products.js).
  */
 (function () {
+  const t = (key, fb) =>
+    (window.XYZ_I18N && window.XYZ_I18N.t && window.XYZ_I18N.t(key, fb)) || fb;
+  const localizePath = (p) =>
+    (window.XYZ_I18N && window.XYZ_I18N.localizePath && window.XYZ_I18N.localizePath(p)) ||
+    p;
   const fmtMono = (n) => "$" + Number(n || 0).toLocaleString();
-  const fmtMonthly = (n) => (n ? fmtMono(n) + "/mo" : "$0/mo");
+  const fmtMonthly = (n) =>
+    n ? fmtMono(n) + t("common.monthSuffix", "/mo") : "$0" + t("common.monthSuffix", "/mo");
   const esc = (s) =>
     String(s)
       .replace(/&/g, "&amp;")
@@ -11,6 +17,11 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
+  function localizedCategory(category) {
+    if (category === "Web3") return t("common.categoryWeb3", "Web3");
+    if (category === "Catalog") return t("common.categoryCatalog", "Catalog");
+    return category;
+  }
 
   const STUDIO_EMAIL =
     (window.XYZ_LABS && window.XYZ_LABS.brand && window.XYZ_LABS.brand.contact.email) ||
@@ -25,17 +36,26 @@
 
   function renderEmpty(container, kind) {
     const title =
-      kind === "build" ? "Your Build is empty." : "Your cart is empty.";
+      kind === "build"
+        ? t("build.emptyTitle", "Your Build is empty.")
+        : t("cart.emptyTitle", "Your cart is empty.");
     const sub =
       kind === "build"
-        ? "Add systems from the catalog to create your shortlist."
-        : "Add a product or use Buy It Now to populate your cart.";
+        ? t(
+            "build.emptySub",
+            "Add systems from the catalog to create your shortlist."
+          )
+        : t(
+            "cart.emptySub",
+            "Add a product or use Buy It Now to populate your cart."
+          );
+    const browse = t("common.browseCatalog", "Browse catalog");
     container.innerHTML = `
       <div class="commerce-empty">
         <div class="commerce-empty-mark">◇</div>
         <div class="commerce-empty-title">${esc(title)}</div>
         <p class="commerce-empty-sub">${esc(sub)}</p>
-        <a class="btn btn-primary btn-sm" href="/">Browse catalog <span class="btn-arrow">→</span></a>
+        <a class="btn btn-primary btn-sm" href="${esc(localizePath("/"))}">${esc(browse)} <span class="btn-arrow">→</span></a>
       </div>`;
   }
 
@@ -46,33 +66,40 @@
       : `<span class="row-thumb-placeholder">${esc(
           item.name.substring(0, 2).toUpperCase()
         )}</span>`;
+    const offLabel = t("promo.offSuffix", "OFF");
+    const usdcBonus = t("promo.usdcBonus", "+10% USDC");
     const promoLine =
       opts.showPromo && item.category === "Catalog"
         ? `<div class="row-promo">
-             <span class="promo-chip">${PROMO.amountPct}% OFF · ${PROMO.label}</span>
-             <span class="promo-chip promo-chip-alt">+10% USDC</span>
+             <span class="promo-chip">${PROMO.amountPct}% ${esc(offLabel)} · ${PROMO.label}</span>
+             <span class="promo-chip promo-chip-alt">${esc(usdcBonus)}</span>
            </div>`
         : "";
+    const decAria = t("common.decreaseAria", "Decrease");
+    const incAria = t("common.increaseAria", "Increase");
     const qty = opts.showQty
       ? `<div class="row-qty">
-          <button data-dec aria-label="Decrease">−</button>
+          <button data-dec aria-label="${esc(decAria)}">−</button>
           <span>${item.qty || 1}</span>
-          <button data-inc aria-label="Increase">+</button>
+          <button data-inc aria-label="${esc(incAria)}">+</button>
         </div>`
       : "";
+    const removeAria = t("common.removeAria", "Remove");
+    const skuPrefix = t("common.skuPrefix", "SKU");
+    const setupLabel = t("common.labelSetup", "Setup");
     return `
       <div class="commerce-row" data-sku="${esc(item.sku)}" data-tone="${tone}">
         <div class="row-thumb">${thumb}</div>
         <div class="row-main">
           <div class="row-head">
             <div class="row-name">${esc(item.name)}</div>
-            <button class="row-remove" data-remove aria-label="Remove ${esc(
+            <button class="row-remove" data-remove aria-label="${esc(removeAria)} ${esc(
               item.name
             )}">×</button>
           </div>
-          <div class="row-sku">SKU ${esc(item.sku)} · ${esc(item.category)}</div>
+          <div class="row-sku">${esc(skuPrefix)} ${esc(item.sku)} · ${esc(localizedCategory(item.category))}</div>
           <div class="row-price">
-            <span class="row-price-setup">Setup ${fmtMono(item.setup)}</span>
+            <span class="row-price-setup">${esc(setupLabel)} ${fmtMono(item.setup)}</span>
             <span class="row-price-sep">·</span>
             <span class="row-price-monthly">${fmtMonthly(item.monthly)}</span>
           </div>
@@ -158,7 +185,7 @@
     });
 
     document.getElementById("clearBuild").onclick = () => {
-      if (confirm("Clear your Build list?")) {
+      if (confirm(t("build.clearConfirm", "Clear your Build list?"))) {
         C.Build.clear();
         renderBuildPage();
       }
@@ -170,12 +197,12 @@
       C.toCartPage();
     };
 
-    const mailto = buildMailto(items, "Build inquiry");
+    const mailto = buildMailto(items, t("build.mailtoBuildSubject", "Build inquiry"));
     document.getElementById("emailBuild").href = mailto;
     document.getElementById("customizeLink").href = mailto;
     document.getElementById("customBuildLink").href =
       `mailto:${STUDIO_EMAIL}?subject=${encodeURIComponent(
-        "XYZ Labs — Custom build inquiry"
+        "XYZ Labs — " + t("build.mailtoCustomSubject", "Custom build inquiry")
       )}`;
 
     window.addEventListener(C.CHANGE_EVENT, syncNav, { once: true });
@@ -226,7 +253,10 @@
 
     document.getElementById("payNow").onclick = () => startCheckout(items);
     document.getElementById("emailInstead").onclick = () => {
-      window.location.href = buildMailto(items, "Cart checkout inquiry");
+      window.location.href = buildMailto(
+        items,
+        t("build.mailtoCartSubject", "Cart checkout inquiry")
+      );
     };
   }
 
@@ -335,7 +365,7 @@
 
     const originalLabel = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = "Creating checkout…";
+    btn.innerHTML = esc(t("common.creatingCheckout", "Creating checkout…"));
 
     try {
       const res = await fetch(CHECKOUT_ENDPOINT, {
@@ -358,7 +388,10 @@
       console.error("[checkout]", err);
       showCheckoutError(
         (err && err.message) ||
-          "Unable to start checkout. Please try again or email studio."
+          t(
+            "common.checkoutError",
+            "Unable to start checkout. Please try again or email studio."
+          )
       );
       btn.disabled = false;
       btn.innerHTML = originalLabel;
@@ -366,15 +399,21 @@
   }
 
   function buildMailto(items, subjectPrefix) {
+    const setupLabel = t("common.labelSetup", "Setup");
     const lines = items
       .map(
         (i) =>
-          `- ${i.name} [${i.sku}] — Setup ${fmtMono(i.setup)} · ${fmtMonthly(
+          `- ${i.name} [${i.sku}] — ${setupLabel} ${fmtMono(i.setup)} · ${fmtMonthly(
             i.monthly
           )} × ${i.qty || 1}`
       )
       .join("%0D%0A");
-    const body = `Hi XYZ Labs,%0D%0A%0D%0AI'd like to finalize the following:%0D%0A%0D%0A${lines}%0D%0A%0D%0AThanks.`;
+    const intro = encodeURIComponent(t("build.mailtoIntro", "Hi XYZ Labs,"));
+    const ask = encodeURIComponent(
+      t("build.mailtoBody", "I'd like to finalize the following:")
+    );
+    const outro = encodeURIComponent(t("build.mailtoOutro", "Thanks."));
+    const body = `${intro}%0D%0A%0D%0A${ask}%0D%0A%0D%0A${lines}%0D%0A%0D%0A${outro}`;
     return `mailto:${STUDIO_EMAIL}?subject=${encodeURIComponent(
       "XYZ Labs — " + subjectPrefix
     )}&body=${body}`;

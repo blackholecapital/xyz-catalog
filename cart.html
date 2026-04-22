@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XYZ Labs — Cart &amp; Checkout</title>
+  <title data-i18n="meta.cartTitle">XYZ Labs — Cart &amp; Checkout</title>
+  <meta
+    name="description"
+    content="Review your XYZ Labs build and check out securely via PayMe — Stripe and USDC supported."
+    data-i18n-attr="content:meta.cartDescription"
+  />
   <link rel="icon" href="/public/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,7 +16,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="/styles.css" />
   <script>
     (function () {
       try {
@@ -43,10 +48,10 @@
         <span class="brand-tag">STUDIO</span>
       </a>
       <div class="nav-links">
-        <a href="/#catalog">Catalog</a>
-        <a href="/#web3">Web3 / DeFi</a>
-        <a href="/#live">Live Demos</a>
-        <a href="/#contact">Contact</a>
+        <a href="/#catalog" data-i18n="nav.catalog">Catalog</a>
+        <a href="/#web3" data-i18n="nav.web3">Web3 / DeFi</a>
+        <a href="/#live" data-i18n="nav.live">Live Demos</a>
+        <a href="/#contact" data-i18n="nav.contact">Contact</a>
       </div>
       <div class="nav-tray">
         <button
@@ -55,17 +60,18 @@
           id="themeToggle"
           aria-label="Toggle day/night theme"
           title="Toggle day/night theme"
+          data-i18n-attr="aria-label:nav.themeToggleLabel,title:nav.themeToggleLabel"
         >
           <span class="theme-icon theme-icon-dark" aria-hidden="true">☾</span>
           <span class="theme-icon theme-icon-light" aria-hidden="true">☀</span>
           <span class="nav-pill-label theme-label">Night</span>
         </button>
         <a class="nav-pill" href="/build.html">
-          <span class="nav-pill-label">Build</span>
+          <span class="nav-pill-label" data-i18n="nav.build">Build</span>
           <span class="nav-pill-count" id="navBuildCount">0</span>
         </a>
         <a class="nav-pill nav-pill-cart active" href="/cart.html">
-          <span class="nav-pill-label">Cart</span>
+          <span class="nav-pill-label" data-i18n="nav.cart">Cart</span>
           <span class="nav-pill-count" id="navCartCount">0</span>
         </a>
       </div>
@@ -81,14 +87,14 @@
 
       <div class="payme-header">
         <span class="payme-mark" aria-hidden="true"></span>
-        <span class="payme-title">PayMe Checkout</span>
-        <span class="payme-sub">Secure · Stripe · USDC</span>
+        <span class="payme-title" data-i18n="payment.paymeTitle">PayMe Checkout</span>
+        <span class="payme-sub" data-i18n="payment.paymeSub">Secure · Stripe · USDC</span>
       </div>
 
       <header class="commerce-head">
-        <span class="eyebrow">Your Cart</span>
-        <h1>Review and check out.</h1>
-        <p class="section-sub">
+        <span class="eyebrow" data-i18n="cart.eyebrow">Your Cart</span>
+        <h1 data-i18n="cart.title">Review and check out.</h1>
+        <p class="section-sub" data-i18n="cart.subtitle">
           One-time setup plus monthly recurring. Checkout runs through the
           existing PayMe / Stripe handoff — you will be redirected to complete
           payment.
@@ -100,47 +106,47 @@
       <footer class="commerce-foot" id="cartFoot" hidden>
         <div class="commerce-summary">
           <div class="summary-line">
-            <span>Items</span>
+            <span data-i18n="cart.items">Items</span>
             <span id="cartItemsLabel">0</span>
           </div>
           <div class="summary-line">
-            <span>Setup subtotal</span>
+            <span data-i18n="cart.setupSubtotal">Setup subtotal</span>
             <span id="cartSetup">$0</span>
           </div>
           <div class="summary-line">
-            <span>Monthly recurring</span>
+            <span data-i18n="cart.monthlyRecurring">Monthly recurring</span>
             <span id="cartMonthly">$0/mo</span>
           </div>
           <div class="summary-line summary-total">
-            <span>Due today</span>
+            <span data-i18n="cart.dueToday">Due today</span>
             <span id="cartDueToday">$0</span>
           </div>
           <div class="summary-note">
-            <span>Monthly renewal billed after first charge.</span>
+            <span data-i18n="cart.monthlyNote">Monthly renewal billed after first charge.</span>
           </div>
         </div>
 
         <fieldset class="payme-methods" id="paymentMethods">
-          <legend>Payment method</legend>
+          <legend data-i18n="payment.method">Payment method</legend>
           <label class="payme-method">
             <input type="radio" name="payment_method" value="card" checked />
             <span class="payme-method-body">
-              <span class="payme-method-title">Card</span>
-              <span class="payme-method-sub">Visa · Mastercard · Amex — via Stripe</span>
+              <span class="payme-method-title" data-i18n="payment.card">Card</span>
+              <span class="payme-method-sub" data-i18n="payment.cardSub">Visa · Mastercard · Amex — via Stripe</span>
             </span>
           </label>
           <label class="payme-method">
             <input type="radio" name="payment_method" value="wallet" />
             <span class="payme-method-body">
-              <span class="payme-method-title">Apple Pay / Google Pay</span>
-              <span class="payme-method-sub">Express wallet checkout</span>
+              <span class="payme-method-title" data-i18n="payment.wallet">Apple Pay / Google Pay</span>
+              <span class="payme-method-sub" data-i18n="payment.walletSub">Express wallet checkout</span>
             </span>
           </label>
           <label class="payme-method">
             <input type="radio" name="payment_method" value="usdc" />
             <span class="payme-method-body">
-              <span class="payme-method-title">USDC · Base</span>
-              <span class="payme-method-sub">Onchain settlement</span>
+              <span class="payme-method-title" data-i18n="payment.usdc">USDC · Base</span>
+              <span class="payme-method-sub" data-i18n="payment.usdcSub">Onchain settlement</span>
             </span>
           </label>
         </fieldset>
@@ -152,27 +158,28 @@
             id="walletPlaceholder"
             aria-label="Web3 wallet — coming soon"
             title="Web3 wallet — coming soon"
+            data-i18n-attr="aria-label:common.walletComingSoon,title:common.walletComingSoon"
             disabled
           >
             <span class="wallet-pill-dot" aria-hidden="true"></span>
-            <span class="wallet-pill-label">Web3 / Wallet</span>
-            <span class="wallet-pill-soon">Soon</span>
+            <span class="wallet-pill-label" data-i18n="payment.web3Wallet">Web3 / Wallet</span>
+            <span class="wallet-pill-soon" data-i18n="payment.soon">Soon</span>
           </button>
         </div>
 
         <div class="commerce-ctas">
           <button class="btn btn-primary" id="payNow">
-            Pay now
+            <span data-i18n="common.payNow">Pay now</span>
             <span class="btn-arrow">→</span>
           </button>
-          <button class="btn btn-ghost" id="emailInstead">Email studio instead</button>
+          <button class="btn btn-ghost" id="emailInstead" data-i18n="common.emailStudio">Email studio instead</button>
         </div>
         <div class="checkout-error" id="checkoutError" hidden></div>
       </footer>
 
       <div class="payme-footer">
         <span class="payme-mark small" aria-hidden="true"></span>
-        <span>Powered by PayMe</span>
+        <span data-i18n="payment.poweredBy">Powered by PayMe</span>
       </div>
     </section>
   </main>
@@ -180,17 +187,20 @@
   <footer class="footer footer-slim">
     <div class="footer-base">
       <span>© <span id="footerYear"></span></span>
-      <span>XYZ Labs — Made in studio.</span>
+      <span data-i18n="footer.madeInStudio">XYZ Labs — Made in studio.</span>
       <button type="button" class="top-pill top-pill-footer" data-scroll-top>
-        <span>Top</span>
+        <span data-i18n="common.top">Top</span>
         <span class="top-pill-arrow" aria-hidden="true">↑</span>
       </button>
     </div>
   </footer>
 
-  <script src="./products.js"></script>
-  <script src="./cart.js"></script>
-  <script src="./commerce-pages.js"></script>
+  <script src="/locales/en.js"></script>
+  <script src="/locales/nl.js"></script>
+  <script src="/i18n.js"></script>
+  <script src="/products.js"></script>
+  <script src="/cart.js"></script>
+  <script src="/commerce-pages.js"></script>
   <script>
     window.addEventListener("DOMContentLoaded", () => renderCartPage());
   </script>
