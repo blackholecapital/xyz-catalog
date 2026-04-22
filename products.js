@@ -41,7 +41,9 @@ window.XYZ_LABS = {
         description:
           "Execution terminal for onchain market making — quote, hedge, and manage books in one surface.",
         tag: "Web3",
-        motif: "chart"
+        motif: "chart",
+        sku: "xyz.dfi01",
+        pricing: { setup: 1999, monthly: 99 }
       },
       {
         name: "Swap",
@@ -50,7 +52,9 @@ window.XYZ_LABS = {
         description:
           "Token swaps with routed liquidity and price-aware execution.",
         tag: "Onchain",
-        motif: "swap"
+        motif: "swap",
+        sku: "xyz.dfi02",
+        pricing: { setup: 499, monthly: 49 }
       },
       {
         name: "Vaults",
@@ -59,7 +63,9 @@ window.XYZ_LABS = {
         description:
           "Yield strategies with transparent allocation, caps, and reporting.",
         tag: "DeFi",
-        motif: "vault"
+        motif: "vault",
+        sku: "xyz.dfi03",
+        pricing: { setup: 999, monthly: 99 }
       },
       {
         name: "Bridge",
@@ -68,7 +74,9 @@ window.XYZ_LABS = {
         description:
           "Cross-chain asset transfer with visible routes and confirmations.",
         tag: "Onchain",
-        motif: "bridge"
+        motif: "bridge",
+        sku: "xyz.dfi04",
+        pricing: { setup: 499, monthly: 29 }
       },
       {
         name: "GotNodes",
@@ -77,7 +85,9 @@ window.XYZ_LABS = {
         description:
           "Validator and RPC infrastructure for operators and protocols.",
         tag: "Live",
-        motif: "nodes"
+        motif: "nodes",
+        sku: "xyz.dfi05",
+        pricing: { setup: 799, monthly: 49 }
       },
       {
         name: "Points",
@@ -86,7 +96,9 @@ window.XYZ_LABS = {
         description:
           "Engagement and loyalty layer with onchain accounting and admin.",
         tag: "Live",
-        motif: "points"
+        motif: "points",
+        sku: "xyz.dfi06",
+        pricing: { setup: 299, monthly: 19 }
       }
     ]
   },

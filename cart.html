@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XYZ Labs — Cart &amp; Checkout</title>
+  <link rel="icon" href="/public/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="commerce-page">
+  <div class="bg-aurora" aria-hidden="true">
+    <span class="aurora a1"></span>
+    <span class="aurora a2"></span>
+    <span class="aurora a3"></span>
+    <span class="aurora a-amber"></span>
+    <div class="grid-fade"></div>
+    <div class="hex-weave"></div>
+    <div class="schematic"></div>
+    <div class="scanline"></div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <span class="brand-wordmark">xyz Labs</span>
+        <span class="brand-sep">//</span>
+        <span class="brand-tag">STUDIO</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#catalog">Catalog</a>
+        <a href="/#web3">Web3 / DeFi</a>
+        <a href="/#live">Live Demos</a>
+        <a href="/#contact">Contact</a>
+      </div>
+      <div class="nav-tray">
+        <a class="nav-pill" href="/build.html">
+          <span class="nav-pill-label">Build</span>
+          <span class="nav-pill-count" id="navBuildCount">0</span>
+        </a>
+        <a class="nav-pill nav-pill-cart active" href="/cart.html">
+          <span class="nav-pill-label">Cart</span>
+          <span class="nav-pill-count" id="navCartCount">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="commerce">
+    <section class="commerce-shell">
+      <div class="hud-corner tl" aria-hidden="true"></div>
+      <div class="hud-corner tr" aria-hidden="true"></div>
+      <div class="hud-corner bl" aria-hidden="true"></div>
+      <div class="hud-corner br" aria-hidden="true"></div>
+
+      <header class="commerce-head">
+        <span class="eyebrow">Your Cart</span>
+        <h1>Review and check out.</h1>
+        <p class="section-sub">
+          One-time setup charges plus monthly recurring. Checkout uses the PayMe /
+          Stripe flow.
+        </p>
+      </header>
+
+      <div class="commerce-body" id="cartBody"></div>
+
+      <footer class="commerce-foot" id="cartFoot" hidden>
+        <div class="commerce-summary">
+          <div class="summary-line">
+            <span>Items</span>
+            <span id="cartItemsLabel">0</span>
+          </div>
+          <div class="summary-line">
+            <span>Setup subtotal</span>
+            <span id="cartSetup">$0</span>
+          </div>
+          <div class="summary-line">
+            <span>Monthly recurring</span>
+            <span id="cartMonthly">$0/mo</span>
+          </div>
+          <div class="summary-line summary-total">
+            <span>Due today</span>
+            <span id="cartDueToday">$0</span>
+          </div>
+          <div class="summary-note">
+            <span>Monthly renewal billed after first charge.</span>
+          </div>
+        </div>
+        <div class="commerce-ctas">
+          <button class="btn btn-primary" id="payNow">
+            Pay now
+            <span class="btn-arrow">→</span>
+          </button>
+          <button class="btn btn-ghost" id="emailInstead">Email studio instead</button>
+        </div>
+        <div class="commerce-payments" id="paymentOptions">
+          <div class="pay-opt"><span class="pay-dot"></span>Card · Stripe</div>
+          <div class="pay-opt"><span class="pay-dot"></span>Apple / Google Pay</div>
+          <div class="pay-opt"><span class="pay-dot defi"></span>USDC · Base</div>
+        </div>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Checkout handoff modal -->
+  <div id="checkoutModal" class="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="dialog" aria-modal="true">
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <div class="modal-body">
+        <div class="modal-content">
+          <div class="product-id">Checkout handoff</div>
+          <h3>Confirm your order.</h3>
+          <p>
+            This build uses the PayMe checkout engine (Stripe + USDC). The
+            worker / Stripe keys attach during deploy; confirming here creates
+            a Stripe Checkout Session and redirects you to complete payment.
+          </p>
+          <ul class="bullet-list" id="modalLineItems"></ul>
+          <div class="pricing" id="modalTotals"></div>
+          <div class="product-actions">
+            <a class="btn btn-primary btn-sm" id="modalEmail" href="#">
+              Email studio to finalize <span class="btn-arrow">↗</span>
+            </a>
+            <button class="btn btn-ghost btn-sm" data-close>Back to cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer footer-slim">
+    <div class="footer-base">
+      <span>© <span id="footerYear"></span></span>
+      <span>XYZ Labs — Made in studio.</span>
+    </div>
+  </footer>
+
+  <script src="./products.js"></script>
+  <script src="./cart.js"></script>
+  <script src="./commerce-pages.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => renderCartPage());
+  </script>
+</body>
+</html>

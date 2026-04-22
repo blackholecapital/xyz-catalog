@@ -22,15 +22,18 @@
     <span class="aurora a1"></span>
     <span class="aurora a2"></span>
     <span class="aurora a3"></span>
+    <span class="aurora a-amber"></span>
     <div class="grid-fade"></div>
+    <div class="hex-weave"></div>
+    <div class="schematic"></div>
     <div class="scanline"></div>
+    <div class="light-beam"></div>
   </div>
 
   <nav class="nav">
     <div class="nav-inner">
       <a href="#top" class="nav-brand">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span class="brand-name">XYZ Labs</span>
+        <span class="brand-wordmark">xyz Labs</span>
         <span class="brand-sep">//</span>
         <span class="brand-tag">STUDIO</span>
       </a>
@@ -40,7 +43,16 @@
         <a href="#live">Live Demos</a>
         <a href="#contact">Contact</a>
       </div>
-      <a class="nav-cta" href="#catalog">Enter catalog <span aria-hidden="true">→</span></a>
+      <div class="nav-tray">
+        <a class="nav-pill" href="/build.html" id="navBuildLink">
+          <span class="nav-pill-label">Build</span>
+          <span class="nav-pill-count" id="navBuildCount">0</span>
+        </a>
+        <a class="nav-pill nav-pill-cart" href="/cart.html" id="navCartLink">
+          <span class="nav-pill-label">Cart</span>
+          <span class="nav-pill-count" id="navCartCount">0</span>
+        </a>
+      </div>
     </div>
   </nav>
 
@@ -200,8 +212,7 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <div class="footer-brand-row">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span class="brand-name">XYZ Labs</span>
+          <span class="brand-wordmark footer-wordmark">xyz Labs</span>
           <span class="brand-sep">//</span>
           <span class="brand-tag">STUDIO</span>
         </div>
@@ -247,6 +258,7 @@
   </div>
 
   <script src="./products.js"></script>
+  <script src="./cart.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>
