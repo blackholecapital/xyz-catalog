@@ -15,8 +15,36 @@
 (function () {
   const LOCALES = window.XYZ_LOCALES || {};
   const DEFAULT_LOCALE = "en";
+  const SUPPORTED = ["en", "nl"];
+  const STORAGE_KEY = "xyz_locale";
 
+  function readStored() {
+    try {
+      const v = localStorage.getItem(STORAGE_KEY);
+      if (v && SUPPORTED.indexOf(v) !== -1) return v;
+    } catch (e) {}
+    return null;
+  }
+
+  function writeStored(next) {
+    try {
+      if (next && SUPPORTED.indexOf(next) !== -1) {
+        localStorage.setItem(STORAGE_KEY, next);
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    } catch (e) {}
+  }
+
+  /* Detection precedence:
+   *   1. Stored preference (set by the in-nav language switch). Lets users
+   *      flip locale even before a Cloudflare Pages deploy picks up
+   *      _redirects.
+   *   2. URL pathname — /nl prefix → Dutch.
+   *   3. Default (English). */
   function detectLocale() {
+    const stored = readStored();
+    if (stored) return stored;
     const p = (window.location.pathname || "").toLowerCase();
     if (p === "/nl" || p === "/nl/" || p.indexOf("/nl/") === 0) return "nl";
     return DEFAULT_LOCALE;
@@ -56,11 +84,10 @@
     return fallbackText !== undefined ? fallbackText : key;
   }
 
-  /* Internal path → locale-prefixed path. Leaves external / mail / tel /
-   * fragment-only / already-prefixed links alone. */
-  function localizePath(href) {
+  /* Maps an internal path to its canonical form for `target` locale.
+   * Handles both directions (en ↔ nl) and idempotently. */
+  function pathForLocale(href, target) {
     if (!href) return href;
-    if (locale === DEFAULT_LOCALE) return href;
     if (
       /^(?:[a-z]+:)?\/\//i.test(href) ||
       href.indexOf("mailto:") === 0 ||
@@ -69,18 +96,63 @@
     ) {
       return href;
     }
-    // Already prefixed.
-    if (href === "/nl" || href.indexOf("/nl/") === 0 || href.indexOf("/nl#") === 0) {
+    // Split a possible fragment.
+    const hashIdx = href.indexOf("#");
+    const hash = hashIdx >= 0 ? href.slice(hashIdx) : "";
+    let path = hashIdx >= 0 ? href.slice(0, hashIdx) : href;
+
+    // Normalize Dutch-prefixed paths down to their English canonical form.
+    if (path === "/nl" || path === "/nl/") {
+      path = "/";
+    } else if (path === "/nl/cart" || path === "/nl/cart/") {
+      path = "/cart.html";
+    } else if (path === "/nl/checkout" || path === "/nl/checkout/") {
+      path = "/cart.html";
+    } else if (path === "/nl/build" || path === "/nl/build/") {
+      path = "/build.html";
+    } else if (path === "/index.html") {
+      path = "/";
+    }
+
+    if (target === "nl") {
+      if (path === "/" || path === "") path = "/nl";
+      else if (path === "/cart.html") path = "/nl/cart";
+      else if (path === "/build.html") path = "/nl/build";
+    }
+    return path + hash;
+  }
+
+  /* Convenience: rewrite a link for the active locale. */
+  function localizePath(href) {
+    if (!href) return href;
+    if (locale === DEFAULT_LOCALE) {
+      // Still normalize accidental /nl links back to English canonical.
+      if (
+        href === "/nl" ||
+        href === "/nl/" ||
+        href.indexOf("/nl/") === 0 ||
+        href.indexOf("/nl#") === 0
+      ) {
+        return pathForLocale(href, "en");
+      }
       return href;
     }
-    // Root + fragment, e.g. "/#catalog" → "/nl#catalog"
-    if (href === "/") return "/nl";
-    if (href.indexOf("/#") === 0) return "/nl" + href.slice(1);
-    if (href === "/index.html") return "/nl";
-    if (href === "/cart.html") return "/nl/cart";
-    if (href === "/build.html") return "/nl/build";
-    // Anything else we don't know how to remap — leave untouched.
-    return href;
+    return pathForLocale(href, "nl");
+  }
+
+  /* User-invoked: store preference and navigate to the equivalent path. */
+  function setLocale(next) {
+    if (SUPPORTED.indexOf(next) === -1) return;
+    writeStored(next);
+    const target = pathForLocale(
+      window.location.pathname + window.location.hash,
+      next
+    );
+    if (target === window.location.pathname + window.location.hash) {
+      window.location.reload();
+    } else {
+      window.location.href = target;
+    }
   }
 
   function applyText(root) {
@@ -130,11 +202,41 @@
     rewriteLinks(root);
   }
 
+  /* Wires any [data-locale-toggle] / [data-set-locale="nl|en"] elements
+   * found in the DOM. Shows the active locale via a `data-active` attr so
+   * existing .nav-pill styling can highlight it (see styles.css). */
+  function wireLocaleSwitch(root) {
+    (root || document)
+      .querySelectorAll("[data-set-locale]")
+      .forEach((el) => {
+        const target = el.getAttribute("data-set-locale");
+        el.setAttribute("data-active", target === locale ? "true" : "false");
+        el.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (target !== locale) setLocale(target);
+        });
+      });
+    (root || document)
+      .querySelectorAll("[data-locale-toggle]")
+      .forEach((el) => {
+        el.addEventListener("click", (e) => {
+          e.preventDefault();
+          setLocale(locale === "nl" ? "en" : "nl");
+        });
+      });
+    (root || document)
+      .querySelectorAll("[data-locale-current]")
+      .forEach((el) => {
+        el.textContent = locale.toUpperCase();
+      });
+  }
+
   function init() {
     try {
       document.documentElement.setAttribute("lang", locale);
     } catch (e) {}
     applyAll(document);
+    wireLocaleSwitch(document);
   }
 
   if (document.readyState === "loading") {
@@ -148,6 +250,7 @@
     t,
     get,
     localizePath,
-    apply: applyAll
+    apply: applyAll,
+    setLocale
   };
 })();
